@@ -77,6 +77,9 @@ def rosorg_main():
     parser.add_option("--repos", default=None,
                       dest="repos", metavar="ROSBROWSE_REPOS_FILE",
                       help="repos list from rosbrowse for determining repository names/roots")
+    parser.add_option("--checkout", default='checkouts',
+                      dest="checkout_dir", metavar="CHECKOUT_DIR",
+                      help="path to checkout directory for repos file")
 
     options, package_filters = parser.parse_args()
 
@@ -94,7 +97,7 @@ def rosorg_main():
     try:
         ctx.init()
 
-        artifacts = generate_docs(ctx, repos)
+        artifacts = generate_docs(ctx, repos, options.checkout_dir)
         if options.upload:
             print artifacts
             rosdoc.upload.upload(artifacts, target=options.upload)
