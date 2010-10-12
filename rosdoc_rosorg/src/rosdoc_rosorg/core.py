@@ -50,6 +50,10 @@ def load_repos(filename):
         config = d[type_]
         
         name = config['local-name']
+        if name == 'ros-repo':
+            # due to the way rosinstall works, ros-repo can't be
+            # called ros
+            name = 'ros'
         uri  = config['uri']
 
         r = Repo(name, type_, uri)

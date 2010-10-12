@@ -84,7 +84,8 @@ def generate_epydoc(ctx):
                 env = os.environ.copy()
                 env['PYTHONPATH'] = os.pathsep.join([p for p in paths if os.path.exists(p)])
 
-                print "epydoc-building %s [%s]"%(package, ' '.join(command))
+                if not ctx.quiet:
+                    print "epydoc-building %s [%s]"%(package, ' '.join(command))
                 Popen(command, stdout=PIPE, env=env).communicate()
                 success.append(package)
             except Exception, e:

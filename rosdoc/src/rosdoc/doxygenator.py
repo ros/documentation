@@ -205,10 +205,10 @@ def _write_to_file(f, tmpl):
 def run_doxygen(package, doxygen_file, quiet=False):
     try:
         command = ['doxygen', doxygen_file]
-        print "doxygen-ating %s [%s]"%(package, ' '.join(command))
         if quiet:
             Popen(command, stdout=PIPE, stderr=PIPE).communicate()
         else:
+            print "doxygen-ating %s [%s]"%(package, ' '.join(command))
             Popen(command, stdout=PIPE).communicate()            
     except OSError, (errno, strerr):
         #fatal        
@@ -268,8 +268,6 @@ def generate_doxygen(ctx, disable_rxdeps=False):
             if not package in doc_packages or \
                    not ctx.has_builder(package, 'doxygen'):
                 continue
-
-            print "doxygenate", package
 
             # the logic for the doxygen builder is different from
             # others as doxygen is the default builder if no config is

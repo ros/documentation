@@ -49,6 +49,7 @@ from . import docindex
 from . import licenseindex
 from . import epyenator
 from . import sphinxenator
+from . import landing_page
 
 def get_optparse(name):
     """
@@ -79,7 +80,7 @@ def get_optparse(name):
     
 def generate_docs(ctx, quiet=True, no_rxdeps=True):
     timings = ctx.timings
-    dirs = []
+    artifacts = []
     
     # Collect all packages that mention rosmake as a builder, and build them first
     start = time.time()
@@ -108,7 +109,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
     start = time.time()
     import doxygenator
     try:
-        dirs.extend(doxygenator.generate_doxygen(ctx, quiet=quiet, disable_rxdeps=no_rxdeps))
+        artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
     except Exception, e:
         traceback.print_exc()
         print >> sys.stderr, "package header generation failed"
@@ -120,18 +121,18 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         ('sphinx', sphinxenator.generate_sphinx),
         ('msg', msgenator.generate_msg_docs),
         ('landing-page', landing_page.generate_landing_page),
-        ('doc-index'), docindex.generate_doc_index,
-        ('license-index'), licenseindex.generate_license_index,
+        ('doc-index', docindex.generate_doc_index),
+        ('license-index', licenseindex.generate_license_index),
                ]
 
     for plugin_name, plugin in plugins:
         start = time.time()
         try:
-            dirs.extend(plugin(ctx))
+            artifacts.extend(plugin(ctx))
         except Exception, e:
             traceback.print_exc()
             print >> sys.stderr, "plugin [%s] failed"%(plugin_name)
-        timings[plugin] = time.time() - start
+        timings[plugin_name] = time.time() - start
             
     # support files
     # TODO: convert to plugin
@@ -144,7 +145,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
     artifacts.append(styles_css)
     timings['support_files'] = time.time() - start
 
-    return dirs
+    return list(set(artifacts))
 
 
 def main():
@@ -154,7 +155,7 @@ def main():
     # Load the ROS environment
     ctx = RosdocContext(options.name, options.docdir,
                         package_filters=package_filters, path_filters=options.paths)
-
+    ctx.quiet = options.quiet
     try:
         ctx.init()
 

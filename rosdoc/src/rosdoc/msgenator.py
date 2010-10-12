@@ -229,6 +229,9 @@ def generate_msg_docs(ctx):
             except Exception, e:
                 print >> sys.stderr, "FAILED to generate for %s/%s: %s"%(p, s, str(e))
 
+    # we don't return an explicit list of artifacts as we generate into same tree
+    return []
+
 
 
 

@@ -51,7 +51,7 @@ from . import repo_header
 
 
 def generate_docs(ctx, repos, checkout_dir):
-    if 0:
+    if 1:
         artifacts = rosdoc.generate_docs(ctx)
     else:
         artifacts = []
@@ -117,12 +117,12 @@ def rosorg_main():
                                package_filters=package_filters, path_filters=options.paths)
 
     try:
+        ctx.quiet = options.quiet        
         ctx.init()
 
         artifacts = generate_docs(ctx, repos, options.checkout_dir)
         if options.upload:
-            print artifacts
-            rosdoc.upload.upload(artifacts, target=options.upload)
+            rosdoc.upload.upload(ctx, artifacts, options.upload)
 
         print "Timings"
         for k, v in ctx.timings.iteritems():
