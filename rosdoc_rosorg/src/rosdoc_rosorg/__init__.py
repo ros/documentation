@@ -47,6 +47,7 @@ import rosdoc.upload
 from .core import load_repos
 from . import package_header
 from . import stack_header
+from . import repo_header
 
 
 def generate_docs(ctx, repos, checkout_dir):
@@ -57,23 +58,39 @@ def generate_docs(ctx, repos, checkout_dir):
 
     stack_dirs = []
     
+    timings = ctx.timings
+    timings['package-header'] = 0.
+    timings['stack-header'] = 0.
+    timings['repo-header'] = 0.
+
     for repo_name, repo in repos.iteritems():
         repo_dir = os.path.join(checkout_dir, repo_name)
+        if not os.path.exists(repo_dir):
+            continue
 
-        if 0:
-            # Packages
-            packages = roslib.packages.list_pkgs_by_path(repo_dir)
-            packages = list(set(packages) ^ set(ctx.packages))
-            # - ignore package artifacts, they are embedded in normal hiearchy
-            _ = package_header.generate_package_headers(ctx, repo, packages)
-
+        # Packages
+        start = time.time()
+        packages = roslib.packages.list_pkgs_by_path(repo_dir)
+        packages = list(set(packages) & set(ctx.packages))
+        # - ignore package artifacts, they are embedded in normal hiearchy
+        #TODO: do we want to aggregate package manifests in repo.yaml?
+        _ = package_header.generate_package_headers(ctx, repo, packages)
+        timings['package-header'] += time.time() - start
+        
         # Stacks
+        start = time.time()
         stacks = roslib.stacks.list_stacks_by_path(repo_dir)
-        stacks = list(set(stacks) ^ set(ctx.stacks))
+        stacks = list(set(stacks) & set(ctx.stacks))
+        timings['stack-header'] += time.time() - start
+        
         # - generate
         stack_files = stack_header.generate_stack_headers(ctx, repo, stacks)
         # - simplify artifacts to the directory name
         stack_dirs.extend([os.path.dirname(f) for f in stack_files])
+
+        start = time.time()
+        artifacts.extend(repo_header.generate_repo_header(ctx, repo, stack_files))
+        timings['repo-header'] += time.time() - start
     
     return artifacts + stack_dirs
 
@@ -111,6 +128,8 @@ def rosorg_main():
         for k, v in ctx.timings.iteritems():
             print " * %.2f %s"%(v, k)
             
+    except KeyboardInterrupt:
+        pass
     except:
         traceback.print_exc()
         sys.exit(1)

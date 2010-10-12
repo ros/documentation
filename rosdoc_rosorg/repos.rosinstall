@@ -97,7 +97,7 @@
     local-name: isr-uc-ros-pkg
     uri: http://isr-uc-ros-pkg.googlecode.com/svn/trunk/
 - git: 
-    local-name: au-automov
+    local-name: au-automow
     uri: http://github.com/wjwwood/au-automow.git
 - git:
     local-name: roslua

@@ -130,7 +130,8 @@ def generate_package_headers(ctx, repo, packages):
             os.makedirs(filename_dir)
 
         try:
-            #print "generating wiki files for", p
+            if not ctx.quiet:
+                print "writing package properties to", filename
             _generate_package_headers(ctx, repo, p, filename)
             artifacts.append(filename)
         except Exception, e:
