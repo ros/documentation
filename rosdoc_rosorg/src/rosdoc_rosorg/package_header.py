@@ -30,8 +30,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Revision $Id: package_header.py 10718 2010-08-17 00:32:54Z tfoote $
-# $Author: tfoote $
+# Revision $Id$
+# $Author$
 from __future__ import with_statement
 
 import codecs
@@ -47,7 +47,9 @@ import roslib.stacks
 import roslib.packages
 import roslib.vcs
 
-def _generate_package_headers(ctx, p):
+from .core import package_link
+
+def _generate_package_headers(ctx, repo, p, filename):
     m = ctx.manifests[p]
     m.description = m.description or ''
     d = {
@@ -100,30 +102,14 @@ def _generate_package_headers(ctx, p):
                 d[k] = []
                 
     # Try to get VCS repo info
-    vcs, repo = roslib.vcs.guess_vcs_uri(roslib.packages.get_pkg_dir(p))
-    #  - if we have the repo map, use it instead for canonical
-    #    URIs. There is the possibility that if there are two 'repos'
-    #    mounted in the same SVN it will get confused, though the
-    #    'guess_vcs_uri' technique is just as bad.
-    if ctx.repos:
-        for r_vcs, r_uri in ctx.repos.itervalues():
-            if r_vcs == vcs and \
-                    (r_uri.startswith(repo) or repo.starswith(r_uri)):
-                repo = r_uri
-                break
-
     if repo is not None:
-        d['repository'] = repo
-        d['vcs'] = vcs
+        d['repository'] = repo.name
+        d['vcs'] = repo.type
   
-    file_p = os.path.join(ctx.docdir, p, 'manifest.yaml')
-    file_p_dir = os.path.dirname(file_p)
-    if not os.path.isdir(file_p_dir):
-        os.makedirs(file_p_dir)
-    with codecs.open(file_p, mode='w', encoding='utf-8') as f:
+    with codecs.open(filename, mode='w', encoding='utf-8') as f:
         f.write(yaml.dump(d))
     
-def generate_package_headers(ctx):
+def generate_package_headers(ctx, repo, packages):
     """
     Generate manifest.yaml files for MoinMoin PackageHeader macro
     """
@@ -133,13 +119,22 @@ def generate_package_headers(ctx):
         print >> sys.stderr, "Cannot import yaml, will not generate MoinMoin PackageHeader files"
         return
 
-    packages = ctx.packages
+    artifacts = []
     for p in packages.iterkeys():
         if not ctx.should_document(p):
             continue
+
+        filename = os.path.join(ctx.docdir, p, 'manifest.yaml')
+        filename_dir = os.path.dirname(filename)
+        if not os.path.isdir(filename_dir):
+            os.makedirs(filename_dir)
+
         try:
-          #print "generating wiki files for", p
-          _generate_package_headers(ctx, p)
+            #print "generating wiki files for", p
+            _generate_package_headers(ctx, repos, p, filename)
+            artifacts.append(filename)
         except Exception, e:
           traceback.print_exc()
           print >> sys.stderr, "Unable to generate manifest.yaml for "+p+str(e)
+
+    return artifacts

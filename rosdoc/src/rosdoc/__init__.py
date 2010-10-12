@@ -50,6 +50,33 @@ import .licenseindex
 import .epyenator
 import .sphinxenator
 
+def get_optparse(name):
+    """
+    Retrieve default option parser for rosdoc. Useful if building an
+    extended rosdoc tool with additional options.
+    """
+    from optparse import OptionParser
+    parser = OptionParser(usage="usage: %prog [options] [packages...]", prog=name)
+    parser.add_option("-n", "--name",metavar="NAME",
+                      dest="name", default="ROS Package", 
+                      help="Name for documentation set")
+    parser.add_option("-q", "--quiet",action="store_true", default=False,
+                      dest="quiet",
+                      help="Suppress doxygen errors")
+    parser.add_option("--paths",metavar="PATHS",
+                      dest="paths", default=None, 
+                      help="package paths to document")
+    parser.add_option("--no-rxdeps", action="store_true",
+                      dest="no_rxdeps", default=False, 
+                      help="disable rxdeps")
+    parser.add_option("-o",metavar="OUTPUT_DIRECTORY",
+                      dest="docdir", default='doc', 
+                      help="directory to write documentation to")
+    parser.add_option("--upload",action="store", default=None,
+                      dest="upload", metavar="RSYNC_TARGET",
+                      help="rsync target argument")
+    return parser
+    
 def generate_docs(ctx, quiet=True, no_rxdeps=True):
     timings = ctx.timings
     dirs = []
@@ -121,27 +148,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
 
 
 def main():
-    from optparse import OptionParser
-    parser = OptionParser(usage="usage: %prog [options] [packages...]", prog=NAME)
-    parser.add_option("-n", "--name",metavar="NAME",
-                      dest="name", default="ROS Package", 
-                      help="Name for documentation set")
-    parser.add_option("-q", "--quiet",action="store_true", default=False,
-                      dest="quiet",
-                      help="Suppress doxygen errors")
-    parser.add_option("--paths",metavar="PATHS",
-                      dest="paths", default=None, 
-                      help="package paths to document")
-    parser.add_option("--no-rxdeps", action="store_true",
-                      dest="no_rxdeps", default=False, 
-                      help="disable rxdeps")
-    parser.add_option("-o",metavar="OUTPUT_DIRECTORY",
-                      dest="docdir", default='doc', 
-                      help="directory to write documentation to")
-    parser.add_option("--upload",action="store", default=None,
-                      dest="upload", metavar="RSYNC_TARGET",
-                      help="rsync target argument")
-
+    parser = get_optparse(NAME)
     options, package_filters = parser.parse_args()
 
     # Load the ROS environment
@@ -155,7 +162,7 @@ def main():
 
         start = time.time()
         if options.upload:
-            rosdoc.upload.upload(ctx, artifacts, target=options.upload)
+            rosdoc.upload.upload(ctx, artifacts, options.upload)
         ctx.timings['upload'] = time.time()
 
         print "Timings"

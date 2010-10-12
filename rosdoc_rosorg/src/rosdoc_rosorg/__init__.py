@@ -31,73 +31,78 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Revision $Id: __init__.py 10740 2010-08-18 00:52:44Z tfoote $
+# Revision $Id$
 
 import sys
 import os
 import time
 import traceback
-from subprocess import Popen, PIPE
 
-NAME='rosdoc'
+import roslib.packages
+import roslib.stacks
 
-from rdcore import *
+import rosdoc
 import rosdoc.upload
 
-def main():
-    from optparse import OptionParser
-    parser = OptionParser(usage="usage: %prog [options] [packages...]", prog=NAME)
-    parser.add_option("-n", "--name",metavar="NAME",
-                      dest="name", default="ROS Package", 
-                      help="Name for documentation set")
-    parser.add_option("-q", "--quiet",action="store_true", default=False,
-                      dest="quiet",
-                      help="Suppress doxygen errors")
-    parser.add_option("--paths",metavar="PATHS",
-                      dest="paths", default=None, 
-                      help="package paths to document")
-    parser.add_option("-o",metavar="OUTPUT_DIRECTORY",
-                      dest="docdir", default='doc', 
-                      help="directory to write documentation to")
+from .core import load_repos
+import .package_header
+import .stack_header
+
+
+def generate_docs(ctx, repos, checkout_dir):
+    artifacts = rosdoc.generate_docs(ctx)
+    stack_dirs = []
+    
+    for repo in repos:
+        repo_dir = os.path.join(checkout_dir, repo.name)
+        
+        # Packages
+        packages = roslib.packages.list_pkgs_by_path(repo_dir)
+        packages = list(set(packages) ^ set(ctx.packages))
+        # - ignore package artifacts, they are embedded in normal hiearchy
+        _ = package_header.generate_package_headers(ctx, repo, packages)
+
+        # Stacks
+        stacks = roslib.stacks.list_stacks_by_path(repo_dir)
+        stacks = list(set(stacks) ^ set(ctx.stacks))
+        # - generate
+        stack_files = stack_header.generate_stack_headers(ctx, repo, stacks)
+        # - simplify artifacts to the directory name
+        stack_dirs.extend([os.path.dirname(f) for f in stack_files])
+    
+    return artifacts + stack_dirs
+
+def rosorg_main():
+    parser = rosdoc.get_optparse('rosdoc_rosorg')
     parser.add_option("--repos", default=None,
                       dest="repos", metavar="ROSBROWSE_REPOS_FILE",
                       help="repos list from rosbrowse for determining repository names/roots")
-    parser.add_option("--upload",action="store", default=None,
-                      dest="upload", metavar="RSYNC_TARGET",
-                      help="rsync target argument")
 
     options, package_filters = parser.parse_args()
 
-    # Load the ROS environment - repos is for the rosdoc build on
-    # Hudson. It generates the correct repository roots for generating
-    # package_headers
-    repos = None
+    # Load the repository file
     if options.repos:
-        with open(options.repos, 'r') as f:
-            # load file
-            repos = [l.split() for l in f if not l.startswith('#')]
-            # convert to dictionary
-            repos = dict([(key, (type, uri)) for key, type, uri in repos])
+        repos_file = options.repos
+    else:
+        repos_file = roslib.packages.get_pkg_dir('rosdoc_rosorg', 'repos.rosinstall')
+    repos = load_repos(repos_file)
 
-    ctx = RosdocContext(options.name, options.docdir,
-                        package_filters=package_filters, path_filters=options.paths,
-                        repos=repos)
+    # Load the rosdoc environment
+    ctx = rosdoc.RosdocContext(options.name, options.docdir,
+                               package_filters=package_filters, path_filters=options.paths)
 
     try:
         ctx.init()
 
-        rosdoc.generate_docs(ctx)
-        
-        stack_dirs = []
-
-        import package_header
-        package_header.generate_package_headers(ctx)
-        stack_files = package_header.generate_stack_headers(ctx)
-        stack_dirs = [os.path.dirname(f) for f in stack_files]
+        artifacts = generate_docs(ctx, repos)
         if options.upload:
-            print success, stack_dirs
-            rosdoc.upload.upload(success + stack_dirs + ['index.html', 'licenses.html', 'styles.css'], options.upload)
+            print artifacts
+            rosdoc.upload.upload(artifacts, target=options.upload)
 
+        print "Timings"
+        for k, v in ctx.timings.iteritems():
+            print " * %.2f %s"%(v, k)
+            
     except:
         traceback.print_exc()
         sys.exit(1)

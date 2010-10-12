@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # Software License Agreement (BSD License)
 #
-# Copyright (c) 2008, Willow Garage, Inc.
+# Copyright (c) 2010, Willow Garage, Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -31,25 +30,10 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
+# Revision $Id: package_header.py 10718 2010-08-17 00:32:54Z tfoote $
+# $Author: tfoote $
 
-from __future__ import with_statement
+import roslib; roslib.load_manifest('rosdoc_rosorg')
 
-import os
-import sys
-import subprocess
-
-def upload(ctx, artifacts, target):
-    for a in artifacts:
-        # backwards compatibility
-        if os.path.isfile(a):
-            path = a
-            pass
-        else:
-            path = os.path.join(ctx.docdir, a)
-
-        if not os.path.exists(path):
-            print >> sys.stderr, "cannot locate artifact %s"%(a)
-
-        cmd = [ 'rsync', '-qr', path, target]
-        print "Calling", cmd
-        subprocess.check_call(cmd)
+import rosdoc_rosorg
+rosdoc_rosorg.rosorg_main()
