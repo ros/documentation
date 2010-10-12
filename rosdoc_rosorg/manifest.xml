@@ -1,0 +1,15 @@
+<package>
+  <description brief="rosdoc_rosorg">
+
+     Version of rosdoc for the ROS.org documenation.
+
+  </description>
+  <author>Ken Conley</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rosdoc_rosorg</url>
+  <depend package="rosdoc"/>
+
+</package>
+
+

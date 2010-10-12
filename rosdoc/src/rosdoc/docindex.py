@@ -82,7 +82,10 @@ def _tree_size(tree):
     else:
         return 1
     
-def generate_doc_index(ctx, success, path):
+def generate_doc_index(ctx):
+    success = ctx.doc_packages
+    path = os.path.join(ctx.docdir, 'index.html')
+    
     tree = generate_package_tree(ctx)
     success.sort(caseless_comp)
     keys = tree.keys()
@@ -97,3 +100,5 @@ def generate_doc_index(ctx, success, path):
         os.makedirs(os.path.dirname(path))
     with open(path, 'w') as f:
         f.write(instantiate_template(doc_index_template, vars))
+        
+    return [path]

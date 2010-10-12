@@ -235,13 +235,16 @@ Package dependency tree links will not work properly.
 ## Main entrypoint into creating doxygen files
 ## @param disable_rxdeps: if True, don't generate rxdeps documenation (note: this parameter is volatile as rxdeps generation will be moved outside of doxygenator)
 ## @type  disable_rxdeps: bool        
-## @param quiet: suppress most stdout output
-## @type  quiet: bool        
-## @return [str]: list of packages that were successfully generated
-def generate_doxygen(ctx, quiet=False, disable_rxdeps=False):
+## @return [str]: list of directories in which documentation was generated (aka the list of successful packages)
+def generate_doxygen(ctx, disable_rxdeps=False):
+    quiet = ctx.quiet
 
     #TODO: move external generator into its own generator
-    #TODO: move rxdeps into its own generator    
+    #TODO: move rxdeps into its own generator
+    
+    #TODO: success is now supposed to be the listed of generated
+    #artifacts. There is some discontinuity here if the cwd is
+    #changed.
     
     # setup temp directory
     tmp = 'tmp'

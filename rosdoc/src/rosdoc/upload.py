@@ -34,12 +34,22 @@
 
 from __future__ import with_statement
 
+import os
+import sys
 import subprocess
 
+def upload(ctx, artifacts, target='wgs32:/var/www/www.ros.org/html/doc/api'):
+    for a in artifacts:
+        # backwards compatibility
+        if os.path.isfile(a):
+            path = a
+            pass
+        else:
+            path = os.path.join(ctx.docdir, a)
 
+        if not os.path.exists(path):
+            print >> sys.stderr, "cannot locate artifact %s"%(a)
 
-def upload(packages, target='wgs32:/var/www/www.ros.org/html/doc/api'):
-    for p in packages:
-        cmd = [ 'rsync', '-qr', 'doc/%s'%p, target]
+        cmd = [ 'rsync', '-qr', path, target]
         print "Calling", cmd
         subprocess.check_call(cmd)

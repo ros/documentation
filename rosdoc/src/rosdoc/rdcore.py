@@ -46,7 +46,8 @@ import roslib.stacks
 import roslib.stack_manifest
 
 class RosdocContext(object):
-    def __init__(self, name, docdir, package_filters=None, path_filters=None, repos=None):
+    
+    def __init__(self, name, docdir, package_filters=None, path_filters=None):
         self.name = name
         self.package_filters = package_filters
         self.path_filters = []
@@ -66,10 +67,8 @@ class RosdocContext(object):
         self.external_docs = {}
         self.manifests = {}
         self.stack_manifests = {}
+        self.quiet = True
 
-        # repos is initialized in Hudson rosdoc builds when we are spanning all repos
-        self.repos = repos
-        
         # advanced per-package config
         self.rd_configs = {}                
 

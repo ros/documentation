@@ -30,8 +30,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Revision $Id$
-# $Author$
+# Revision $Id: package_header.py 10718 2010-08-17 00:32:54Z tfoote $
+# $Author: tfoote $
 from __future__ import with_statement
 
 import codecs
