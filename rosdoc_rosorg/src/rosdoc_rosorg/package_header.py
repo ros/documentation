@@ -120,7 +120,7 @@ def generate_package_headers(ctx, repo, packages):
         return
 
     artifacts = []
-    for p in packages.iterkeys():
+    for p in packages:
         if not ctx.should_document(p):
             continue
 
@@ -131,10 +131,11 @@ def generate_package_headers(ctx, repo, packages):
 
         try:
             #print "generating wiki files for", p
-            _generate_package_headers(ctx, repos, p, filename)
+            _generate_package_headers(ctx, repo, p, filename)
             artifacts.append(filename)
         except Exception, e:
           traceback.print_exc()
           print >> sys.stderr, "Unable to generate manifest.yaml for "+p+str(e)
 
+    # TODO: generate repo-specific artifact list
     return artifacts

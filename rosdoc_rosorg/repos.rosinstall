@@ -22,7 +22,7 @@
     uri: https://bosch-ros-pkg.svn.sourceforge.net/svnroot/bosch-ros-pkg/trunk
 - svn: 
     local-name: wu-ros-pkg
-    uri: https://wu-ros-pkg.svn.sourceforge.net/svnroot/wu-ros-pkg/externals/wu-ros-pkg/
+    uri: https://wu-ros-pkg.svn.sourceforge.net/svnroot/wu-ros-pkg/externals/wu-ros-pkg
 - svn: 
     local-name: usc-ros-pkg
     uri: https://usc-ros-pkg.svn.sourceforge.net/svnroot/usc-ros-pkg/trunk
@@ -43,25 +43,25 @@
     uri: https://phidget.foote-ros-pkg.googlecode.com/hg/
 - svn: 
     local-name: brown-ros-pkg
-    uri: http://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg/ 
+    uri: http://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg
 - svn: 
     local-name: ros-engagement
-    uri: http://ros-engagement.svn.sourceforge.net/svnroot/ros-engagement
+    uri: http://ros-engagement.svn.sourceforge.net/svnroot/ros-engagement/trunk
 - svn: 
     local-name: prairiedog 
-    uri: http://prairiedog.googlecode.com/svn/trunk/
+    uri: http://prairiedog.googlecode.com/svn/trunk
 - svn: 
     local-name: alufr-ros-pkg
-    uri: http://alufr-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://alufr-ros-pkg.googlecode.com/svn/trunk
 - svn: 
     local-name: ajh-ros-pkg
     uri: https://ajh-ros-pkg.svn.sourceforge.net/svnroot/ajh-ros-pkg/trunk
 - svn: 
     local-name: utexas-art-ros-pkg
-    uri: http://utexas-art-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://utexas-art-ros-pkg.googlecode.com/svn/trunk
 - svn: 
     local-name: ua-ros-pkg
-    uri: http://ua-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://ua-ros-pkg.googlecode.com/svn/trunk
 - git: 
     local-name: care-o-bot
     uri: git://github.com/ipa320/care-o-bot
@@ -70,16 +70,16 @@
     uri: git://ram.umd.edu/umd-ros-pkg.git
 - svn: 
     local-name: cu-ros-pkg
-    uri: http://cu-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://cu-ros-pkg.googlecode.com/svn/trunk
 - git: 
     local-name: iheart-ros-pkg
     uri: git://github.com/IHeartRobotics/iheart-ros-pkg.git
 - svn: 
     local-name: kul-ros-pkg
-    uri: http://svn.mech.kuleuven.be/repos/orocos/trunk/kul-ros-pkg/
+    uri: http://svn.mech.kuleuven.be/repos/orocos/trunk/kul-ros-pkg
 - svn: 
     local-name: rice-ros-pkg
-    uri: http://rice-ros-pkg.svn.sourceforge.net/svnroot/rice-ros-pkg/
+    uri: http://rice-ros-pkg.svn.sourceforge.net/svnroot/rice-ros-pkg
 #- svn: 
 #    local-name: jsk-ros-pkg
 #    uri: https://jsk-ros-pkg.svn.sourceforge.net/svnroot/jsk-ros-pkg/trunk

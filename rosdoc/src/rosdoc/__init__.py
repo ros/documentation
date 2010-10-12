@@ -41,14 +41,14 @@ from subprocess import Popen, PIPE
 
 NAME='rosdoc'
 
-from rdcore import *
-import rosdoc.upload
+from . rdcore import *
+from . import upload
 
-import .msgenator
-import .docindex 
-import .licenseindex
-import .epyenator
-import .sphinxenator
+from . import msgenator
+from . import docindex 
+from . import licenseindex
+from . import epyenator
+from . import sphinxenator
 
 def get_optparse(name):
     """
@@ -162,7 +162,7 @@ def main():
 
         start = time.time()
         if options.upload:
-            rosdoc.upload.upload(ctx, artifacts, options.upload)
+            upload.upload(ctx, artifacts, options.upload)
         ctx.timings['upload'] = time.time()
 
         print "Timings"

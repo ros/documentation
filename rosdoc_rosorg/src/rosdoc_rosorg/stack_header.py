@@ -59,28 +59,27 @@ def _generate_stack_headers(ctx, filename, s, repo):
         f.write(yaml.dump(d))
   
 
-def generate_stack_headers(ctx, stacks, repo):
+def generate_stack_headers(ctx, repo, stacks):
     """
     Generate stack.yaml files for MoinMoin PackageHeader macro
 
     @return: list of stack.yaml files
     @rtype: [str]
     """
-    stacks = ctx.stacks
-    stack_files = []
-    for s in stacks.iterkeys():
+    artifacts = []
+    for s in stacks:
         
         filename = os.path.join(ctx.docdir, s, 'stack.yaml')
         filename_dir = os.path.dirname(filename)
         if not os.path.isdir(filename_dir):
             os.makedirs(filename_dir)
-        stack_files.append(filename)
+        artifacts.append(filename)
         
         try:
             #print "generating stack wiki files for", s
             _generate_stack_headers(ctx, filename, s, repo)
         except Exception, e:
             traceback.print_exc()
-            print >> sys.stderr, "Unable to generate stack.yaml for "+s+str(e)
+            print >> sys.stderr, "Unable to generate stack.yaml for %s: %s"%(s, e)
 
-    return stack_filename
+    return artifacts

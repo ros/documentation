@@ -45,22 +45,27 @@ import rosdoc
 import rosdoc.upload
 
 from .core import load_repos
-import .package_header
-import .stack_header
+from . import package_header
+from . import stack_header
 
 
 def generate_docs(ctx, repos, checkout_dir):
-    artifacts = rosdoc.generate_docs(ctx)
+    if 0:
+        artifacts = rosdoc.generate_docs(ctx)
+    else:
+        artifacts = []
+
     stack_dirs = []
     
-    for repo in repos:
-        repo_dir = os.path.join(checkout_dir, repo.name)
-        
-        # Packages
-        packages = roslib.packages.list_pkgs_by_path(repo_dir)
-        packages = list(set(packages) ^ set(ctx.packages))
-        # - ignore package artifacts, they are embedded in normal hiearchy
-        _ = package_header.generate_package_headers(ctx, repo, packages)
+    for repo_name, repo in repos.iteritems():
+        repo_dir = os.path.join(checkout_dir, repo_name)
+
+        if 0:
+            # Packages
+            packages = roslib.packages.list_pkgs_by_path(repo_dir)
+            packages = list(set(packages) ^ set(ctx.packages))
+            # - ignore package artifacts, they are embedded in normal hiearchy
+            _ = package_header.generate_package_headers(ctx, repo, packages)
 
         # Stacks
         stacks = roslib.stacks.list_stacks_by_path(repo_dir)
@@ -87,7 +92,7 @@ def rosorg_main():
     if options.repos:
         repos_file = options.repos
     else:
-        repos_file = roslib.packages.get_pkg_dir('rosdoc_rosorg', 'repos.rosinstall')
+        repos_file = os.path.join(roslib.packages.get_pkg_dir('rosdoc_rosorg'), 'repos.rosinstall')
     repos = load_repos(repos_file)
 
     # Load the rosdoc environment

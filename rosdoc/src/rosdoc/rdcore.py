@@ -67,7 +67,11 @@ class RosdocContext(object):
         self.external_docs = {}
         self.manifests = {}
         self.stack_manifests = {}
-        self.quiet = True
+
+        # - generally suppress output
+        self.quiet = False
+        # - for profiling
+        self.timings = {}
 
         # advanced per-package config
         self.rd_configs = {}                
