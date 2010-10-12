@@ -85,7 +85,7 @@
 #    uri: https://jsk-ros-pkg.svn.sourceforge.net/svnroot/jsk-ros-pkg/trunk
 - svn: 
     local-name: robotino
-    uri: http://svn.openrobotino.org/trunk/ros/
+    uri: http://svn.openrobotino.org/trunk/ros
 - git: 
     local-name: ccny-ros-pkg
     uri: http://robotics.ccny.cuny.edu/git/ccny-ros-pkg.git/
@@ -110,10 +110,10 @@
     uri: http://github.com/konradb3/RCPRG-ros-pkg.git
 - svn:
     local-name: otl-ros-pkg
-    uri: http://otl-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://otl-ros-pkg.googlecode.com/svn/trunk
 - svn:
     local-name: aptima-ros-pkg
-    uri: http://aptima-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://aptima-ros-pkg.googlecode.com/svn/trunk
 - svn:
     local-name: eros
-    uri: https://code.ros.org/svn/eros/trunk/
+    uri: https://code.ros.org/svn/eros/trunk
