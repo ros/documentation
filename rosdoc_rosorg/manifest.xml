@@ -10,6 +10,8 @@
   <url>http://ros.org/wiki/rosdoc_rosorg</url>
   <depend package="rosdoc"/>
 
+  <rosdep name="python-yaml"/>
+   
 </package>
 
 
