@@ -47,7 +47,7 @@ import roslib.vcs
 
 from .core import Repo
 
-def generate_repo_header(ctx, repo, stack_files):
+def generate_repo_header(ctx, repo, stack_files, package_files):
     """
     Generate repo.yaml files for MoinMoin Repo macros
 
@@ -61,13 +61,17 @@ def generate_repo_header(ctx, repo, stack_files):
             'type': repo.type,
             'uri': repo.uri,
             },
-        'stacks': {}
+        'stacks': {},
+        'packages': {},
         }
     for f in stack_files:
-        stack_name = os.path.basename(os.path.dirname(f))
-        with open(f) as stack_f:
-            d = yaml.load(stack_f)
-        repo_data['stacks'][stack_name] = d
+        name = os.path.basename(os.path.dirname(f))
+        with open(f) as yaml_f:
+            repo_data['stacks'][name] = yaml.load(yaml_f)
+    for f in package_files:
+        name = os.path.basename(os.path.dirname(f))
+        with open(f) as yaml_f:
+            repo_data['packages'][name] = yaml.load(yaml_f)
         
     filename = os.path.join(ctx.docdir, repo.name, 'repo.yaml')
     filename_dir = os.path.dirname(filename)

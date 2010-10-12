@@ -105,6 +105,11 @@ def _generate_package_headers(ctx, repo, p, filename):
     if repo is not None:
         d['repository'] = repo.name
         d['vcs'] = repo.type
+        if repo.type == 'svn':
+            # svn allows partial checkouts, DVCSs generally don't
+            d['vcs_uri'] = roslib.vcs.get_svn_url(roslib.packages.get_pkg_dir(p))
+        else:
+            d['vcs_uri'] = repo.uri
   
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
         f.write(yaml.dump(d))

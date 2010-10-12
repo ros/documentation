@@ -72,9 +72,7 @@ def generate_docs(ctx, repos, checkout_dir):
         start = time.time()
         packages = roslib.packages.list_pkgs_by_path(repo_dir)
         packages = list(set(packages) & set(ctx.packages))
-        # - ignore package artifacts, they are embedded in normal hiearchy
-        #TODO: do we want to aggregate package manifests in repo.yaml?
-        _ = package_header.generate_package_headers(ctx, repo, packages)
+        package_files = package_header.generate_package_headers(ctx, repo, packages)
         timings['package-header'] += time.time() - start
         
         # Stacks
@@ -89,9 +87,10 @@ def generate_docs(ctx, repos, checkout_dir):
         stack_dirs.extend([os.path.dirname(f) for f in stack_files])
 
         start = time.time()
-        artifacts.extend(repo_header.generate_repo_header(ctx, repo, stack_files))
+        artifacts.extend(repo_header.generate_repo_header(ctx, repo, stack_files, package_files))
         timings['repo-header'] += time.time() - start
     
+    # we don't include package artifacts because they are already covered elsewhere
     return artifacts + stack_dirs
 
 def rosorg_main():
