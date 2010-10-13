@@ -81,7 +81,7 @@ def generate_msg_srv_includes(package, tmp, to_delete):
 ## @param m Manifest : package manifest
 ## @param html_dir str: directory to store doxygen files                    
 def create_package_template(package, rd_config, m, path, html_dir,
-                            header_filename, footer_filename):
+                            header_filename, footer_filename, example_path):
     # TODO: allow rd_config to specify excludes and whatnot
     
     # TODO: replace with general purpose key/value parser/substitution to enable <export><doxygen key="foo" val="var"></export> feature
@@ -116,7 +116,9 @@ def create_package_template(package, rd_config, m, path, html_dir,
        
     include_path = roslib.rospack.rospackexec(['cflags-only-I',package])
 
+    # example path is where htmlinclude operates
     vars = { '$INPUT':  path, '$PROJECT_NAME': package,
+             '$EXAMPLE_PATH': "%s %s"%(path, example_path),
              '$EXCLUDE_PROP': excludes, '$FILE_PATTERNS': file_patterns,
              '$EXCLUDE_PATTERNS': exclude_patterns,
              '$HTML_OUTPUT': os.path.abspath(html_dir),
@@ -248,9 +250,12 @@ def generate_doxygen(ctx, disable_rxdeps=False):
     #changed.
     
     # setup temp directory
-    tmp = 'tmp'
+    #UNIXONLY
+    # TODO: dynamically generate
+    tmp = '/tmp/rosdoc'
     if not os.path.exists(tmp):
         os.mkdir(tmp)
+    example_path = tmp
 
     success = []
     
@@ -305,13 +310,13 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 header_file = tempfile.NamedTemporaryFile('w+')
                 footer_file = tempfile.NamedTemporaryFile('w+')
                 doxygen_file = tempfile.NamedTemporaryFile('w+')
-                manifest_file = open(os.path.join(tmp, 'manifest.html'), 'w')
+                manifest_file = open(os.path.join(example_path, 'manifest.html'), 'w')
                 files = [header_file, footer_file, manifest_file, doxygen_file]
                 to_delete = [manifest_file]
 
                 # create the doxygen templates and wiki header
 
-                generate_msg_srv_includes(package, tmp, to_delete)
+                generate_msg_srv_includes(package, example_path, to_delete)
 
                 # - instantiate the templates
                 manifest_ = manifests[package] if package in manifests else None
@@ -330,7 +335,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                     doxy = \
                         create_package_template(package, rd_config, manifest_,
                                                 path, html_dir,
-                                                header_file.name, footer_file.name)
+                                                header_file.name, footer_file.name,
+                                                example_path)
                     for f, tmpl in zip(files, [header, footer, manifest_html, doxy]):
                         _write_to_file(f, tmpl)
                     # doxygenate
