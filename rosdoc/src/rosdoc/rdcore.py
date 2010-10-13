@@ -119,6 +119,9 @@ class RosdocContext(object):
         return True
 
     def init(self):
+        if not self.quiet:
+            print "initializing rosdoc context:\n\tpackage filters: %s\n\tpath filters: %s"%(self.package_filters, self.path_filters)
+        
         self.rosroot = roslib.rosenv.get_ros_root(required=True)
         self.ros_package_path = roslib.rosenv.get_ros_package_path(required=False) or ''
 
@@ -130,7 +133,8 @@ class RosdocContext(object):
         rospack_list = [x.split(' ') for x in rospack_list if ' ' in x]
 
         #TODO: remove
-        print "rospack list: %s"%(rospack_list)
+        if not self.quiet:
+            print "rospack list: %s"%('\n'.join(rospack_list))
 
         # I'm still debating whether or not to immediately filter
         # these. The problem is that a package that is within the
@@ -159,7 +163,7 @@ class RosdocContext(object):
 
             # find stacks to document on demand
             if self.should_document(package):
-                if not options.quiet:
+                if not self.quiet:
                     print "+package[%s]"%(package)
                 stack = roslib.stacks.stack_of(package) or ''
                 if stack and stack not in stacks:
@@ -169,7 +173,7 @@ class RosdocContext(object):
                         stacks[stack] = p
                     except:
                         print >> sys.stderr, "cannot locate directory of stack [%s]"%stack
-            elif not options.quiet:
+            elif not self.quiet:
                 print "-package[%s]"%(package)
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
@@ -211,6 +215,8 @@ class RosdocContext(object):
 
             f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
             try:
+                if not self.queit:
+                    print "loading stack manifest %s"%(f)
                 stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
             except:
                 import traceback
