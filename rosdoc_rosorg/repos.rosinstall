@@ -95,7 +95,9 @@
 - git: 
     local-name: ccny-ros-pkg
     uri: http://robotics.ccny.cuny.edu/git/ccny-ros-pkg.git/
-#berkeley svn http://ros.berkeley.edu/svn/berkeley-ros-pkg/misc_packages
+- svn:
+    local-name: berkeley-ros-pkg
+    uri: http://ros.berkeley.edu/svn/berkeley-ros-pkg/misc_packages
 - svn: 
     local-name: dfki-sks-ros-pkg
     uri: https://svn-agbkb.informatik.uni-bremen.de/dfki-sks-ros-pkg/trunk
