@@ -50,9 +50,6 @@ header_template = load_tmpl('header.html')
 footer_template = load_tmpl('footer.html')
 manifest_template = load_tmpl('manifest.html')
 
-#TODO:REMOVE
-print "MANIFEST TEMPLATE: %s"%(manifest_template)
-
 # other templates
 
 ## @param ext str: extension (msg or srv)
@@ -324,7 +321,7 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
                 if not ctx.quiet:
-                    print "VARS %S"%(vars)
+                    print "VARS %s"%(vars)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
                 if not disable_rxdeps:

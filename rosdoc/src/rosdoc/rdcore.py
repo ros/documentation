@@ -175,9 +175,6 @@ class RosdocContext(object):
                 print "-package[%s]"%(package)
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
-            #TODO:REMOVE
-            print "manifest: %s, %s"%(f, os.path.isfile(f))
-            
             try:
                 manifests[package] = m = roslib.manifest.parse_file(f)
 
