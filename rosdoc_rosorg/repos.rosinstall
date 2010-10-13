@@ -86,9 +86,9 @@
 - svn: 
     local-name: rice-ros-pkg
     uri: http://rice-ros-pkg.svn.sourceforge.net/svnroot/rice-ros-pkg
-#- svn: 
-#    local-name: jsk-ros-pkg
-#    uri: https://jsk-ros-pkg.svn.sourceforge.net/svnroot/jsk-ros-pkg/trunk
+- svn: 
+    local-name: jsk-ros-pkg
+    uri: https://jsk-ros-pkg.svn.sourceforge.net/svnroot/jsk-ros-pkg/trunk
 - svn: 
     local-name: robotino
     uri: http://svn.openrobotino.org/trunk/ros
