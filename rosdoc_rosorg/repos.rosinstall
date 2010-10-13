@@ -17,9 +17,9 @@
 - svn: 
     local-name: stanford-ros-pkg
     uri: https://stanford-ros-pkg.googlecode.com/svn/trunk
-#- svn: 
-#    local-name: cmu-ros-pkg
-#    uri: https://cmu-ros-pkg.svn.sourceforge.net/svnroot/cmu-ros-pkg/trunk
+- svn: 
+    local-name: cmu-ros-pkg
+    uri: https://cmu-ros-pkg.svn.sourceforge.net/svnroot/cmu-ros-pkg/trunk
 - svn: 
     local-name: tum-ros-pkg
     uri: https://tum-ros-pkg.svn.sourceforge.net/svnroot/tum-ros-pkg
