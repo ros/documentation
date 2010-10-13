@@ -222,7 +222,7 @@ class RosdocContext(object):
             except:
                 import traceback
                 traceback.print_exc()
-                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%package
+                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
                 
 
 def compute_relative(src, target):
