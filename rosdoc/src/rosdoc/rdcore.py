@@ -129,6 +129,9 @@ class RosdocContext(object):
         rospack_list = roslib.rospack.rospackexec(['list']).split('\n')
         rospack_list = [x.split(' ') for x in rospack_list if ' ' in x]
 
+        #TODO: remove
+        print "rospack list: %s"%(rospack_list)
+
         # I'm still debating whether or not to immediately filter
         # these. The problem is that a package that is within the
         # filter may reference packages outside that filter. I'm not
@@ -156,6 +159,8 @@ class RosdocContext(object):
 
             # find stacks to document on demand
             if self.should_document(package):
+                if not options.quiet:
+                    print "+package[%s]"%(package)
                 stack = roslib.stacks.stack_of(package) or ''
                 if stack and stack not in stacks:
                     #print "adding stack [%s] to documentation"%stack
@@ -164,6 +169,8 @@ class RosdocContext(object):
                         stacks[stack] = p
                     except:
                         print >> sys.stderr, "cannot locate directory of stack [%s]"%stack
+            elif not options.quiet:
+                print "-package[%s]"%(package)
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
             try:
