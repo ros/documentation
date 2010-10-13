@@ -134,7 +134,7 @@ class RosdocContext(object):
 
         #TODO: remove
         if not self.quiet:
-            print "rospack list: %s"%('\n'.join(rospack_list))
+            print "rospack list: %s"%(rospack_list)
 
         # I'm still debating whether or not to immediately filter
         # these. The problem is that a package that is within the
@@ -183,7 +183,7 @@ class RosdocContext(object):
                 #NOTE: the behavior is undefined if the users uses
                 #both config and export properties directly
 
-                # #1650 for backwards compatibility, we ready the old
+                # #1650 for backwards compatibility, we read the old
                 # 'doxymaker' tag, which is deprecated
                 #  - this is a loop but we only accept one value
                 for e in m.get_export('doxymaker', 'external'):
@@ -192,6 +192,7 @@ class RosdocContext(object):
                     external_docs[package] = e
                     
                 # load in any external config files
+                # TODO: check for rosdoc.yaml by default
                 for e in m.get_export('rosdoc', 'config'):
                     import yaml
                     try:
