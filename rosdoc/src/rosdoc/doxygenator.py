@@ -316,14 +316,14 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 # - instantiate the templates
                 manifest_ = manifests[package] if package in manifests else None
 
-                #TODO: remove
-                print "MANIFEST: %s"%(manifest_)
-                
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
                 if not ctx.quiet:
                     print "VARS %s"%(vars)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
+                #TODO: remove
+                print "MANIFEST: %s"%(manifest_html)
+                
                 if not disable_rxdeps:
                     run_rxdeps(package, pkg_doc_dir)
                 if package not in external_docs:
