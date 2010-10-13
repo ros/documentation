@@ -50,6 +50,9 @@ header_template = load_tmpl('header.html')
 footer_template = load_tmpl('footer.html')
 manifest_template = load_tmpl('manifest.html')
 
+#TODO:REMOVE
+print "MANIFEST TEMPLATE: %s"%(manifest_template)
+
 # other templates
 
 ## @param ext str: extension (msg or srv)
@@ -146,10 +149,9 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
     if rd_config:
         if 'homepage' in rd_config:
             home_url = rd_config['homepage']
-            print "HOMEPAGE", home_url
             
     project_link = '<a href="%s">%s</a>'%(home_url, package)
-    if m:
+    if m is not None:
         license = m.license or ''
         author = m.author or ''
         description = m.description or ''
@@ -169,6 +171,8 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
                            li_package_links(ctx, package, [d.package for d in m.depends], docdir, package_htmldir)
         else:
             dependencies = "None<br />"
+    else:
+        print "no manifest [%s]"%(package)
 
     dependson1 = roslib.rospack.rospackexec(['depends-on1', package]).split('\n')
     # filter depends by what we're actually documenting
@@ -314,7 +318,13 @@ def generate_doxygen(ctx, disable_rxdeps=False):
 
                 # - instantiate the templates
                 manifest_ = manifests[package] if package in manifests else None
+
+                #TODO: remove
+                print "MANIFEST: %s"%(manifest_)
+                
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
+                if not ctx.quiet:
+                    print "VARS %S"%(vars)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
                 if not disable_rxdeps:

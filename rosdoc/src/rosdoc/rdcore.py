@@ -132,16 +132,14 @@ class RosdocContext(object):
         rospack_list = roslib.rospack.rospackexec(['list']).split('\n')
         rospack_list = [x.split(' ') for x in rospack_list if ' ' in x]
 
-        #TODO: remove
-        if not self.quiet:
-            print "rospack list: %s"%(rospack_list)
-
         # I'm still debating whether or not to immediately filter
         # these. The problem is that a package that is within the
         # filter may reference packages outside that filter. I'm not
         # sure if this is an issue or not.
         packages = self.packages
         for package, path in rospack_list:
+            if not self.quiet:
+                print package, path
             packages[package] = path
 
         self.doc_packages = [p for p in packages if self.should_document(p)]
@@ -177,6 +175,9 @@ class RosdocContext(object):
                 print "-package[%s]"%(package)
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
+            #TODO:REMOVE
+            print "manifest: %s, %s"%(f, os.path.isfile(f))
+            
             try:
                 manifests[package] = m = roslib.manifest.parse_file(f)
 
