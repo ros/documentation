@@ -322,13 +322,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 manifest_ = manifests[package] if package in manifests else None
 
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
-                if not ctx.quiet:
-                    print "VARS %s"%(vars)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
-                #TODO: remove
-                print "MANIFEST: %s"%(manifest_html)
-                
                 if not disable_rxdeps:
                     run_rxdeps(package, pkg_doc_dir)
                 if package not in external_docs:
@@ -370,6 +365,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 shutil.copyfile(dstyles_in, dstyles_css)
 
                 success.append(package)
+            except:
+                print >> sys.stderr, "ERROR: Doxygen of package [%s] failed"%(package)
             finally:
                 for f in files:
                     f.close()
