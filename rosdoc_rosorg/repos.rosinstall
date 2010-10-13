@@ -47,9 +47,6 @@
 - hg: 
     local-name: foote-phidget 
     uri: https://phidget.foote-ros-pkg.googlecode.com/hg/
-- hg:
-    local-name: foote-ros-pkg
-    uri: https://foote-ros-pkg.googlecode.com/hg/
 - svn: 
     local-name: brown-ros-pkg
     uri: http://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg
