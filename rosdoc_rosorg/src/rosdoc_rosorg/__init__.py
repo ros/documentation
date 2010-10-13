@@ -64,7 +64,12 @@ def generate_docs(ctx, repos, checkout_dir):
     timings['repo-header'] = 0.
 
     for repo_name, repo in repos.iteritems():
-        repo_dir = os.path.join(checkout_dir, repo_name)
+        # workaround for ros aliasing
+        if repo_name == 'ros':
+            repo_dir = os.path.join(checkout_dir, 'ros-repo')
+        else:
+            repo_dir = os.path.join(checkout_dir, repo_name)
+            
         if not os.path.exists(repo_dir):
             continue
 
