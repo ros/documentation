@@ -90,7 +90,7 @@
     local-name: jsk-ros-pkg
     uri: https://jsk-ros-pkg.svn.sourceforge.net/svnroot/jsk-ros-pkg/trunk
 - svn: 
-    local-name: robotino
+    local-name: openrobotino
     uri: http://svn.openrobotino.org/trunk/ros
 - git: 
     local-name: ccny-ros-pkg
