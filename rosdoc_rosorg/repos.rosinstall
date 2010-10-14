@@ -125,3 +125,6 @@
 - svn:
     local-name: eros
     uri: https://code.ros.org/svn/eros/trunk
+- svn:
+    local-name: ubc-ros-pkg
+    uri: https://ubc-ros-pkg.svn.sourceforge.net/svnroot/ubc-ros-pkg
