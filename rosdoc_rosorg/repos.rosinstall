@@ -128,3 +128,6 @@
 - svn:
     local-name: ubc-ros-pkg
     uri: https://ubc-ros-pkg.svn.sourceforge.net/svnroot/ubc-ros-pkg
+- hg:
+    local-name: amor-ros-pkg
+    uri: https://amor-ros-pkg.googlecode.com/hg/
