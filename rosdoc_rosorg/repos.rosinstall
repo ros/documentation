@@ -131,3 +131,6 @@
 - hg:
     local-name: amor-ros-pkg
     uri: https://amor-ros-pkg.googlecode.com/hg/
+- bzr:
+    local-name: cmr-ros-pkg
+    uri: lp:cmr
