@@ -134,3 +134,6 @@
 - bzr:
     local-name: cmr-ros-pkg
     uri: lp:cmr
+- git:
+    local-name: asebaros
+    uri: http://github.com/stephanemagnenat/asebaros.git
