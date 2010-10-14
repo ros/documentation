@@ -69,7 +69,7 @@ def generate_repo_header(ctx, repo, stack_files, package_files):
         with open(f) as yaml_f:
             # trim down metadata as repo files can be very large
             d = yaml.load(yaml_f)
-            for k in ['depends', 'depends_on', 'repository', 'review_notes', 'review_status']:
+            for k in ['depends', 'depends_on', 'repository', 'review_notes', 'review_status', 'vcs']:
                 try:
                     del d[k]
                 except:
@@ -79,9 +79,10 @@ def generate_repo_header(ctx, repo, stack_files, package_files):
     for f in package_files:
         name = os.path.basename(os.path.dirname(f))
         with open(f) as yaml_f:
-            # trim down metadata as repo files can be very large
+            # trim down metadata as repo files can be very large. This
+            # metadata is available elsewhere.
             d = yaml.load(yaml_f)
-            for k in ['depends', 'depends_on', 'siblings', 'msgs', 'srvs', 'dependency_tree', 'repository', 'review_notes', 'review_status']:
+            for k in ['depends', 'depends_on', 'siblings', 'msgs', 'srvs', 'dependency_tree', 'repository', 'review_notes', 'review_status', 'api_documentation', 'description', 'vcs']:
                 try:
                     del d[k]
                 except:
