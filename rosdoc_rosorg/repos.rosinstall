@@ -137,3 +137,6 @@
 - git:
     local-name: asebaros
     uri: http://github.com/stephanemagnenat/asebaros.git
+- git:
+    local-name: siue-ros-pkg
+    uri: http://github.com/siue-cs/siue-ros-pkg.git
