@@ -140,3 +140,6 @@
 - git:
     local-name: siue-ros-pkg
     uri: http://github.com/siue-cs/siue-ros-pkg.git
+- svn:
+    local-name: vanadium-ros-pkg
+    uri: http://vanadium-ros-pkg.googlecode.com/svn/trunk/
