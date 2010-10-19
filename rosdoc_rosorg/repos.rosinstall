@@ -111,6 +111,9 @@
     local-name: roslua
     uri: http://github.com/timn/roslua.git
 - git:
+    local-name: rosspawn
+    uri: http://github.com/timn/rosspawn.git
+- git:
     local-name: actionlib_lua
     uri: http://github.com/timn/actionlib_lua.git
 - git:
