@@ -148,4 +148,4 @@
     uri: http://vanadium-ros-pkg.googlecode.com/svn/trunk/
 - svn:
     local-name: veltrop-ros-pkg
-    uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk
+    uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk/veltrop-ros-pkg
