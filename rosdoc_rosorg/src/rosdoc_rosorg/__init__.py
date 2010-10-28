@@ -76,17 +76,24 @@ def generate_docs(ctx, repos, checkout_dir):
         # Packages
         start = time.time()
         packages = roslib.packages.list_pkgs_by_path(repo_dir)
+        # ros-repo doesn't include the ros stack, so we have to add it back in
+        if repo_name == 'ros':
+            packages = packages + roslib.stacks.packages_of('ros')
         packages = list(set(packages) & set(ctx.packages))
+        print "[%s] Generating manifest.yaml files for [%s]"%(rep_name, ','.join(packages))
         package_files = package_header.generate_package_headers(ctx, repo, packages)
         timings['package-header'] += time.time() - start
         
         # Stacks
         start = time.time()
         stacks = roslib.stacks.list_stacks_by_path(repo_dir)
+        if repo_name == 'ros':
+            stacks.append('ros')
         stacks = list(set(stacks) & set(ctx.stacks))
         timings['stack-header'] += time.time() - start
         
         # - generate
+        print "[%s] Generating stack.yaml files for [%s]"%(repo_name, ','.join(stacks))
         stack_files = stack_header.generate_stack_headers(ctx, repo, stacks)
         # - simplify artifacts to the directory name
         stack_dirs.extend([os.path.dirname(f) for f in stack_files])
