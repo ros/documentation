@@ -80,7 +80,7 @@ def generate_docs(ctx, repos, checkout_dir):
         if repo_name == 'ros':
             packages = packages + roslib.stacks.packages_of('ros')
         packages = list(set(packages) & set(ctx.packages))
-        print "[%s] Generating manifest.yaml files for [%s]"%(rep_name, ','.join(packages))
+        print "[%s] Generating manifest.yaml files for [%s]"%(repo_name, ','.join(packages))
         package_files = package_header.generate_package_headers(ctx, repo, packages)
         timings['package-header'] += time.time() - start
         
