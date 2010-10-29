@@ -1,0 +1,18 @@
+doxygen:
+  ubuntu: doxygen
+  fedora: doxygen
+  rhel: doxygen
+  arch: doxygen
+  debian: doxygen
+  macports: doxygen
+  gentoo: app-doc/doxygen
+  freebsd: doxygen
+epydoc:
+  ubuntu: python-epydoc
+  debian: python-epydoc
+  fedora: epydoc
+  macports: py25-epydoc
+  gentoo: dev-python/epydoc
+  freebsd: epydoc
+python-sphinx:
+  ubuntu: python-sphinx
