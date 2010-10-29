@@ -4,6 +4,7 @@
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/documentation</url>
-  <depend stack="ros" /> <!-- roslib, rosmsg -->
+  <depend stack="ros" /> <!-- roslib -->
+  <depend stack="ros_comm" /> <!-- rosmsg -->
 
 </stack>
