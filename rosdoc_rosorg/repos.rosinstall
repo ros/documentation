@@ -117,6 +117,9 @@
     local-name: rosspawn_gui
     uri: http://github.com/timn/rosspawn_gui.git
 - git:
+    local-name: presenter
+    uri: http://github.com/timn/ros-presenter.git
+- git:
     local-name: actionlib_lua
     uri: http://github.com/timn/actionlib_lua.git
 - git:
