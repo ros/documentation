@@ -167,4 +167,6 @@
 - git:
     local-name: cwru-ros-pkg
     uri: http://github.com/cwru-robotics/cwru-ros-pkg.git
-
+- git:
+    local-name: multimaster-ros-pkg
+    uri: http://github.com/jonfink/multimaster-ros-pkg.git
