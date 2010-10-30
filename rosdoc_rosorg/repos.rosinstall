@@ -155,3 +155,6 @@
 - svn:
     local-name: veltrop-ros-pkg
     uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk/veltrop-ros-pkg
+- bzr:
+    local-name: sr-ros-interface
+    uri: lp:sr-ros-interface 
