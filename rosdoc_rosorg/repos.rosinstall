@@ -164,3 +164,7 @@
 - svn:
     local-name: seabee3-ros-pkg
     uri: http://seabee3-ros-pkg.googlecode.com/svn/trunk/cturtle/
+- git:
+    local-name: cwru-ros-pkg
+    uri: http://github.com/cwru-robotics/cwru-ros-pkg.git
+
