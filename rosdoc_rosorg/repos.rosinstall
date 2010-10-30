@@ -158,3 +158,9 @@
 - bzr:
     local-name: sr-ros-interface
     uri: lp:sr-ros-interface 
+- svn:
+    local-name: hwu-osl-ros-pkg
+    uri: http://hwu-osl-ros-pkg.googlecode.com/svn/trunk/ 
+- svn:
+    local-name: seabee3-ros-pkg
+    uri: http://seabee3-ros-pkg.googlecode.com/svn/trunk/cturtle/
