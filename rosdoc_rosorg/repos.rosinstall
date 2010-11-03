@@ -170,3 +170,6 @@
 - git:
     local-name: multimaster-ros-pkg
     uri: http://github.com/jonfink/multimaster-ros-pkg.git
+- git:
+    local-name: flyatar
+    uri: http://github.com/peterpolidoro/Flyatar.git
