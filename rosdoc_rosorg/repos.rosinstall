@@ -124,25 +124,25 @@
     uri: http://github.com/timn/actionlib_lua.git
 - git:
     local-name: orocos_controllers
-    uri: http://github.com/RCPRG-ros-pkg/orocos_controllers.git
+    uri: https://github.com/RCPRG-ros-pkg/orocos_controllers.git
 - git: 
     local-name: orocos_tools
-    uri: http://github.com/RCPRG-ros-pkg/orocos_tools.git
+    uri:  https://github.com/RCPRG-ros-pkg/orocos_tools.git
 - git: 
     local-name: RCPRG_laser_drivers
-    uri: http://github.com/RCPRG-ros-pkg/RCPRG_laser_drivers.git
+    uri: https://github.com/RCPRG-ros-pkg/RCPRG_laser_drivers.git
 - git: 
     local-name: RCPRG_camera_drivers
-    uri: http://github.com/RCPRG-ros-pkg/RCPRG_camera_drivers.git
+    uri: https://github.com/RCPRG-ros-pkg/RCPRG_camera_drivers.git
 - git: 
     local-name: irp6_robot
-    uri: http://github.com/RCPRG-ros-pkg/irp6_robot.git
+    uri: https://github.com/RCPRG-ros-pkg/irp6_robot.git
 - git: 
     local-name: elektron_robot
-    uri: http://github.com/RCPRG-ros-pkg/elektron_robot.git
+    uri: https://github.com/RCPRG-ros-pkg/elektron_robot.git
 - git: 
     local-name: sarkofag_robot
-    uri: http://github.com/RCPRG-ros-pkg/sarkofag_robot.git
+    uri: https://github.com/RCPRG-ros-pkg/sarkofag_robot.git
 - svn:
     local-name: otl-ros-pkg
     uri: http://otl-ros-pkg.googlecode.com/svn/trunk
