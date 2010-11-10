@@ -191,3 +191,9 @@
 - git:
     local-name: flyatar
     uri: http://github.com/peterpolidoro/Flyatar.git
+- git:
+    local-name: ethzasl_message_transport
+    uri: https://github.com/ethz-asl/ros-message-transport.git
+- git:
+    local-name: ethzasl_drivers 
+    uri: https://github.com/ethz-asl/ros-drivers.git
