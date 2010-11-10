@@ -6,5 +6,6 @@
   <url>http://ros.org/wiki/documentation</url>
   <depend stack="ros" /> <!-- roslib -->
   <depend stack="ros_comm" /> <!-- rosmsg -->
+  <depend stack="ros_release" /> <!-- vcstools -->
 
 </stack>

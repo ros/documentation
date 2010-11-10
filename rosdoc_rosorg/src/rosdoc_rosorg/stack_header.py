@@ -40,10 +40,10 @@ import traceback
 
 import yaml
 
-import roslib.vcs
+import vcstools
 import roslib.rospack
 import roslib.stacks
-import roslib.vcs
+import vcstools
 
 from .core import Repo
 
@@ -66,7 +66,7 @@ def _generate_stack_headers(ctx, filename, s, repo):
     d['repository'] = repo.name
     if repo.type == 'svn':
         # svn allows partial checkouts, DVCSs generally don't
-        d['vcs_uri'] = roslib.vcs.get_svn_url(roslib.stacks.get_stack_dir(s))
+        d['vcs_uri'] = vcstools.get_svn_url(roslib.stacks.get_stack_dir(s))
     else:
         d['vcs_uri'] = repo.uri
 
