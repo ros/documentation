@@ -40,10 +40,8 @@ import traceback
 
 import yaml
 
-import roslib.vcs
 import roslib.rospack
 import roslib.stacks
-import roslib.vcs
 
 from .core import Repo
 
