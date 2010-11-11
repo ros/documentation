@@ -123,6 +123,9 @@
     local-name: actionlib_lua
     uri: http://github.com/timn/actionlib_lua.git
 - git:
+    local-name: herb_agents
+    uri: https://github.com/timn/ros-herb_agents.git
+- git:
     local-name: orocos_controllers
     uri: https://github.com/RCPRG-ros-pkg/orocos_controllers.git
 - git: 
