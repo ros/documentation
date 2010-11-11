@@ -132,9 +132,6 @@
     local-name: herb_skills
     uri: https://github.com/timn/ros-herb_skills.git
 - git:
-    local-name: lua_utils
-    uri: https://github.com/timn/ros-lua_utils.git
-- git:
     local-name: luaagent
     uri: https://github.com/timn/ros-luaagent.git
 - git:
