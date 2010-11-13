@@ -121,7 +121,7 @@
     uri: http://github.com/timn/ros-presenter.git
 - git:
     local-name: actionlib_lua
-    uri: http://github.com/timn/actionlib_lua.git
+    uri: http://github.com/timn/ros-actionlib_lua.git
 - git:
     local-name: herb_agents
     uri: https://github.com/timn/ros-herb_agents.git
