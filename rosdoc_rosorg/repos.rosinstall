@@ -224,3 +224,6 @@
 - svn:
     local-name: colbot-ros-pkg
     uri: http://colbot.googlecode.com/svn/trunk/colbot-ros-pkg
+- svn:
+    local-name: pushkar
+    uri: http://tools.pushkar.name/ext/ros/packages
