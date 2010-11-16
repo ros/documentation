@@ -227,3 +227,6 @@
 - svn:
     local-name: pushkar
     uri: http://tools.pushkar.name/ext/ros/packages
+- svn:
+    local-name: vmi-ros-pkg
+    uri: http://vmi.lmt.ei.tum.de/svn/vmi-ros-pkg/trunk
