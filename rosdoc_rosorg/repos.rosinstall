@@ -230,3 +230,6 @@
 - svn:
     local-name: vmi-ros-pkg
     uri: http://vmi.lmt.ei.tum.de/svn/vmi-ros-pkg/trunk
+- hg:
+    local-name: visualization_engine
+    uri: https://bitbucket.org/jfaust/visualization_engine
