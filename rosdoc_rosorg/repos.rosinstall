@@ -23,6 +23,18 @@
 - svn: 
     local-name: tum-ros-pkg
     uri: https://tum-ros-pkg.svn.sourceforge.net/svnroot/tum-ros-pkg
+- git: 
+    local-name: cram_pl 
+    uri: git://code.in.tum.de/git/cram-pl.git
+- git: 
+    local-name: cram_highlevel
+    uri: git://code.in.tum.de/git/cram-highlevel.git
+- git: 
+    local-name: cram_rosie
+    uri: git://code.in.tum.de/git/cram-rosie.git
+- git: 
+    local-name: cram_pr2
+    uri: git://code.in.tum.de/git/cram-pr2.git
 - svn: 
     local-name: bosch-ros-pkg
     uri: https://bosch-ros-pkg.svn.sourceforge.net/svnroot/bosch-ros-pkg/trunk
