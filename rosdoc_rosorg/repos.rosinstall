@@ -251,3 +251,6 @@
 - git:
     local-name: surveyor
     uri: git://github.com/rene0/ros-surveyor.git
+- svn
+    local-name: ais-bonn-ros-pkg
+    uri: http://ais-bonn-ros-pkg.googlecode.com/svn/trunk/
