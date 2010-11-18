@@ -248,3 +248,6 @@
 - git:
     local-name: kinect
     uri: https://github.com/ros-pkg-git/kinect.git
+- git:
+    local-name: surveyor
+    uri: git://github.com/rene0/ros-surveyor.git
