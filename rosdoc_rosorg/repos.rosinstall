@@ -245,3 +245,6 @@
 - hg:
     local-name: visualization_engine
     uri: https://bitbucket.org/jfaust/visualization_engine
+- git:
+    local-name: kinect
+    uri: https://github.com/ros-pkg-git/kinect.git
