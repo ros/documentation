@@ -23,6 +23,18 @@
 - svn: 
     local-name: tum-ros-pkg
     uri: https://tum-ros-pkg.svn.sourceforge.net/svnroot/tum-ros-pkg
+- git: 
+    local-name: cram_pl 
+    uri: git://code.in.tum.de/git/cram-pl.git
+- git: 
+    local-name: cram_highlevel
+    uri: git://code.in.tum.de/git/cram-highlevel.git
+- git: 
+    local-name: cram_rosie
+    uri: git://code.in.tum.de/git/cram-rosie.git
+- git: 
+    local-name: cram_pr2
+    uri: git://code.in.tum.de/git/cram-pr2.git
 - svn: 
     local-name: bosch-ros-pkg
     uri: https://bosch-ros-pkg.svn.sourceforge.net/svnroot/bosch-ros-pkg/trunk
@@ -114,11 +126,59 @@
     local-name: rosspawn
     uri: http://github.com/timn/rosspawn.git
 - git:
-    local-name: actionlib_lua
-    uri: http://github.com/timn/actionlib_lua.git
+    local-name: rosspawn_gui
+    uri: http://github.com/timn/rosspawn_gui.git
 - git:
-    local-name: RCPRG-ros-pkg
-    uri: http://github.com/konradb3/RCPRG-ros-pkg.git
+    local-name: presenter
+    uri: http://github.com/timn/ros-presenter.git
+- git:
+    local-name: actionlib_lua
+    uri: http://github.com/timn/ros-actionlib_lua.git
+- git:
+    local-name: herb_agents
+    uri: https://github.com/timn/ros-herb_agents.git
+- git:
+    local-name: lua_utils
+    uri: https://github.com/timn/ros-lua_utils.git
+- git:
+    local-name: herb_skills
+    uri: https://github.com/timn/ros-herb_skills.git
+- git:
+    local-name: luaagent
+    uri: https://github.com/timn/ros-luaagent.git
+- git:
+    local-name: fawkes_lua
+    uri: https://github.com/timn/ros-fawkes_lua.git
+- git:
+    local-name: behavior_engine
+    uri: https://github.com/timn/ros-behavior_engine.git
+- git:
+    local-name: skiller
+    uri: https://github.com/timn/ros-skiller.git
+- git:
+    local-name: skillgui
+    uri: https://github.com/timn/ros-skillgui.git
+- git:
+    local-name: orocos_controllers
+    uri: https://github.com/RCPRG-ros-pkg/orocos_controllers.git
+- git: 
+    local-name: orocos_tools
+    uri:  https://github.com/RCPRG-ros-pkg/orocos_tools.git
+- git: 
+    local-name: RCPRG_laser_drivers
+    uri: https://github.com/RCPRG-ros-pkg/RCPRG_laser_drivers.git
+- git: 
+    local-name: RCPRG_camera_drivers
+    uri: https://github.com/RCPRG-ros-pkg/RCPRG_camera_drivers.git
+- git: 
+    local-name: irp6_robot
+    uri: https://github.com/RCPRG-ros-pkg/irp6_robot.git
+- git: 
+    local-name: elektron_robot
+    uri: https://github.com/RCPRG-ros-pkg/elektron_robot.git
+- git: 
+    local-name: sarkofag_robot
+    uri: https://github.com/RCPRG-ros-pkg/sarkofag_robot.git
 - svn:
     local-name: otl-ros-pkg
     uri: http://otl-ros-pkg.googlecode.com/svn/trunk
@@ -130,7 +190,7 @@
     uri: https://code.ros.org/svn/eros/trunk
 - svn:
     local-name: ubc-ros-pkg
-    uri: https://ubc-ros-pkg.svn.sourceforge.net/svnroot/ubc-ros-pkg
+    uri: https://ubc-ros-pkg.svn.sourceforge.net/svnroot/ubc-ros-pkg/trunk
 - hg:
     local-name: amor-ros-pkg
     uri: https://amor-ros-pkg.googlecode.com/hg/
@@ -146,3 +206,51 @@
 - svn:
     local-name: vanadium-ros-pkg
     uri: http://vanadium-ros-pkg.googlecode.com/svn/trunk/
+- svn:
+    local-name: veltrop-ros-pkg
+    uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk/veltrop-ros-pkg
+- bzr:
+    local-name: sr-ros-interface
+    uri: lp:sr-ros-interface 
+- svn:
+    local-name: hwu-osl-ros-pkg
+    uri: http://hwu-osl-ros-pkg.googlecode.com/svn/trunk/ 
+- svn:
+    local-name: seabee3-ros-pkg
+    uri: http://seabee3-ros-pkg.googlecode.com/svn/trunk/cturtle/
+- git:
+    local-name: cwru-ros-pkg
+    uri: http://github.com/cwru-robotics/cwru-ros-pkg.git
+- git:
+    local-name: multimaster-ros-pkg
+    uri: http://github.com/jonfink/multimaster-ros-pkg.git
+- git:
+    local-name: flyatar
+    uri: http://github.com/peterpolidoro/Flyatar.git
+- git:
+    local-name: ethzasl_message_transport
+    uri: https://github.com/ethz-asl/ros-message-transport.git
+- git:
+    local-name: ethzasl_drivers 
+    uri: https://github.com/ethz-asl/ros-drivers.git
+- svn:
+    local-name: colbot-ros-pkg
+    uri: http://colbot.googlecode.com/svn/trunk/colbot-ros-pkg
+- svn:
+    local-name: eohan
+    uri: http://tools.pushkar.name/ext/ros/packages
+- svn:
+    local-name: vmi-ros-pkg
+    uri: http://vmi.lmt.ei.tum.de/svn/vmi-ros-pkg/trunk
+- hg:
+    local-name: visualization_engine
+    uri: https://bitbucket.org/jfaust/visualization_engine
+- git:
+    local-name: kinect
+    uri: https://github.com/ros-pkg-git/kinect.git
+- git:
+    local-name: surveyor
+    uri: git://github.com/rene0/ros-surveyor.git
+- svn:
+    local-name: roomrider-ros-pkg
+    uri: http://roomrider-ros-pkg.googlecode.com/svn/trunk

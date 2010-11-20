@@ -45,7 +45,7 @@ import roslib.rospack
 import roslib.srvs
 import roslib.stacks
 import roslib.packages
-import roslib.vcs
+import vcstools
 
 from .core import package_link
 
@@ -107,7 +107,7 @@ def _generate_package_headers(ctx, repo, p, filename):
         d['vcs'] = repo.type
         if repo.type == 'svn':
             # svn allows partial checkouts, DVCSs generally don't
-            d['vcs_uri'] = roslib.vcs.get_svn_url(roslib.packages.get_pkg_dir(p))
+            d['vcs_uri'] = vcstools.get_svn_url(roslib.packages.get_pkg_dir(p))
         else:
             d['vcs_uri'] = repo.uri
   
