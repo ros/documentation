@@ -257,3 +257,6 @@
 - svn:
     local-name: pi_robot_stack
     uri: http://pi-robot-ros-pkg.googlecode.com/svn/trunk/pi-robot-ros-stack
+- git:
+    local-name: rutgers-ros-pkg
+    uri: https://github.com/rutgers/rutgers-ros-pkg.git
