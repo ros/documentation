@@ -252,5 +252,8 @@
     local-name: surveyor
     uri: git://github.com/rene0/ros-surveyor.git
 - svn:
-    local-name: roomrider-ros-pkg
-    uri: http://roomrider-ros-pkg.googlecode.com/svn/trunk
+    local-name: ais-bonn-ros-pkg
+    uri: http://ais-bonn-ros-pkg.googlecode.com/svn/trunk
+- svn:
+    local-name: pi_robot_stack
+    uri: http://pi-robot-ros-pkg.googlecode.com/svn/trunk/pi-robot-ros-stack
