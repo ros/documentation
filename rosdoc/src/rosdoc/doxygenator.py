@@ -109,11 +109,11 @@ def create_package_template(package, rd_config, m, path, html_dir,
               '$EXAMPLE_PATH': "%s %s"%(path, example_path),
               '$EXCLUDE_PROP': rd_config.get('exclude', excludes),
               '$FILE_PATTERNS': rd_config.get('file_patterns', file_patterns),
-              '$EXCLUDE_PATTERNS': rd_config.get('exclude_patterns', '')
+              '$EXCLUDE_PATTERNS': rd_config.get('exclude_patterns', ''),
               '$HTML_OUTPUT': os.path.abspath(html_dir),
               '$HTML_HEADER': header_filename, '$HTML_FOOTER': footer_filename,
               '$OUTPUT_DIRECTORY': html_dir,
-              '$INCLUDE_PATH': include_path
+              '$INCLUDE_PATH': include_path,
 
               '$JAVADOC_AUTOBRIEF': rd_config.get('javadoc_autobrief', 'NO'),
               '$MULTILINE_CPP_IS_BRIEF': rd_config.get('multiline_cpp_is_brief', 'NO'),
@@ -123,7 +123,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
               '$IMAGE_PATH': rd_config.get('image_path', path), #default to $INPUT
               '$EXCLUDE_SYMBOLS': rd_config.get('exclude_symbols', ''),
               }
-    return, instantiate_template(doxy_template, dvars)
+    return instantiate_template(doxy_template, dvars)
 
 ## Processes manifest for package and then generates templates for
 ## header, footer, and manifest include file
