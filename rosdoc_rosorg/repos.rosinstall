@@ -260,3 +260,9 @@
 - git:
     local-name: rutgers-ros-pkg
     uri: https://github.com/rutgers/rutgers-ros-pkg.git
+- git: 
+    local-name: stanford_wbc
+    uri: https://github.com/poftwaresatent/cturtle_stanford_wbc.git
+- git: 
+    local-name: pr2_stanford_wbc
+    uri: https://github.com/poftwaresatent/cturtle_pr2_stanford_wbc.git
