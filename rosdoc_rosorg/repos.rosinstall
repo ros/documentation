@@ -23,6 +23,9 @@
 - svn: 
     local-name: tum-ros-pkg
     uri: https://tum-ros-pkg.svn.sourceforge.net/svnroot/tum-ros-pkg
+- svn:
+    local-name: knowrob
+    uri: http://code.in.tum.de/pubsvn/knowrob/tags/latest
 - git: 
     local-name: cram_pl 
     uri: git://code.in.tum.de/git/cram-pl.git
