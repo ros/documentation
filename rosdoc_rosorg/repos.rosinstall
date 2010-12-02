@@ -64,7 +64,7 @@
     uri: https://phidget.foote-ros-pkg.googlecode.com/hg/
 - svn: 
     local-name: brown-ros-pkg
-    uri: http://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg
+    uri: http://brown-ros-pkg.googlecode.com/svn/trunk/experimental/
 - svn: 
     local-name: ros-engagement
     uri: http://ros-engagement.svn.sourceforge.net/svnroot/ros-engagement/trunk
