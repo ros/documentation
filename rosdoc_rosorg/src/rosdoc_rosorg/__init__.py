@@ -63,6 +63,10 @@ def generate_docs(ctx, repos, checkout_dir):
     timings['stack-header'] = 0.
     timings['repo-header'] = 0.
 
+    # first package/stack to be documented wins
+    completed_packages = set()
+    completed_stack = set()
+    
     for repo_name, repo in repos.iteritems():
         # workaround for ros aliasing
         if repo_name == 'ros':
@@ -79,7 +83,9 @@ def generate_docs(ctx, repos, checkout_dir):
         # ros-repo doesn't include the ros stack, so we have to add it back in
         if repo_name == 'ros':
             packages = packages + roslib.stacks.packages_of('ros')
-        packages = list(set(packages) & set(ctx.packages))
+        # only document requested packages, and don't document anything already documented (name collisions)
+        packages = list(set(packages) & set(ctx.packages) - completed_packages)
+
         print "[%s] Generating manifest.yaml files for [%s]"%(repo_name, ','.join(packages))
         package_files = package_header.generate_package_headers(ctx, repo, packages)
         timings['package-header'] += time.time() - start
@@ -89,7 +95,9 @@ def generate_docs(ctx, repos, checkout_dir):
         stacks = roslib.stacks.list_stacks_by_path(repo_dir)
         if repo_name == 'ros':
             stacks.append('ros')
-        stacks = list(set(stacks) & set(ctx.stacks))
+        # only document requested stacks, and don't document anything
+        # already documented (name collisions)
+        stacks = list((set(stacks) & set(ctx.stacks)) - completed_stacks)
         timings['stack-header'] += time.time() - start
         
         # - generate
@@ -101,6 +109,9 @@ def generate_docs(ctx, repos, checkout_dir):
         start = time.time()
         artifacts.extend(repo_header.generate_repo_header(ctx, repo, stack_files, package_files))
         timings['repo-header'] += time.time() - start
+
+        completed_packages.update(packages)
+        completed_stacks.update(stacks)        
     
     # we don't include package artifacts because they are already covered elsewhere
     return artifacts + stack_dirs
