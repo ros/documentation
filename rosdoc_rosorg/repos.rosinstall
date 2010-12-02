@@ -272,3 +272,6 @@
 - svn:
     local-name: mit-ros-pkg
     uri: https://svn.csail.mit.edu/mit-ros-pkg/branches
+- git:
+    local-name: wpdros
+    uri: https://github.com/wpd/wpdros.git
