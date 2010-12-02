@@ -65,7 +65,7 @@ def generate_docs(ctx, repos, checkout_dir):
 
     # first package/stack to be documented wins
     completed_packages = set()
-    completed_stack = set()
+    completed_stacks = set()
     
     for repo_name, repo in repos.iteritems():
         # workaround for ros aliasing
