@@ -269,3 +269,6 @@
 - git: 
     local-name: pr2_stanford_wbc
     uri: https://github.com/poftwaresatent/cturtle_pr2_stanford_wbc.git
+- svn:
+    local-name: mit-ros-pkg
+    uri: https://svn.csail.mit.edu/mit-ros-pkg/branches
