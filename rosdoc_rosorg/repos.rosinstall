@@ -26,6 +26,9 @@
 - svn:
     local-name: knowrob
     uri: http://code.in.tum.de/pubsvn/knowrob/tags/latest
+- git:
+    local-name: mapping
+    uri: git://code.in.tum.de/git/mapping.git
 - git: 
     local-name: cram_pl 
     uri: git://code.in.tum.de/git/cram-pl.git
@@ -275,3 +278,9 @@
 - git:
     local-name: wpdros
     uri: https://github.com/wpd/wpdros.git
+- git:
+    local-name: vicon_mocap
+    uri: https://github.com/pbouffard/vicon_mocap.git
+- git:
+    local-name: pgr_camera
+    uri: https://github.com/pbouffard/ros.pgr_camera.git
