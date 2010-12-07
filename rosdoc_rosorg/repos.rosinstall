@@ -287,3 +287,6 @@
 - git:
     local-name: segway_rmp
     uri: https://github.com/kent-williams/segway_rmp.git
+- svn:
+    local-name: wifibot
+    uri: https://roswifibot.svn.sourceforge.net/svnroot/roswifibot/trunk
