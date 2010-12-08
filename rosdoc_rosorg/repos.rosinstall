@@ -290,3 +290,6 @@
 - svn:
     local-name: wifibot
     uri: https://roswifibot.svn.sourceforge.net/svnroot/roswifibot/trunk
+- git:
+    local-name: client_rosjava
+    uri: git://code.in.tum.de/git/client-rosjava.git
