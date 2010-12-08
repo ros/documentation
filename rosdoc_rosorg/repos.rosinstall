@@ -293,3 +293,6 @@
 - git:
     local-name: client_rosjava
     uri: git://code.in.tum.de/git/client-rosjava.git
+- git:
+    local-name: ni
+    uri: https://github.com/ros-pkg-git/ni.git
