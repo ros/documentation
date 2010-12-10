@@ -296,3 +296,6 @@
 - git:
     local-name: ni
     uri: https://github.com/ros-pkg-git/ni.git
+- svn:
+    local-name: clearpath-ros-pkg
+    uri: http://clearpath-ros-pkg.googlecode.com/svn/trunk
