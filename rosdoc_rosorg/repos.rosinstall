@@ -299,3 +299,6 @@
 - svn:
     local-name: clearpath-ros-pkg
     uri: http://clearpath-ros-pkg.googlecode.com/svn/trunk
+- git:
+    local-name: uuirc-ros-pkg
+    uri: https://github.com/cburbridge/uuisrc-ros-pkg.git
