@@ -87,8 +87,20 @@
     local-name: ua-ros-pkg
     uri: http://ua-ros-pkg.googlecode.com/svn/trunk
 - git: 
-    local-name: care-o-bot
-    uri: git://github.com/ipa320/care-o-bot
+    local-name: cob_extern
+    uri: https://github.com/ipa320/cob_extern.git
+- git: 
+    local-name: cob_common
+    uri: https://github.com/ipa320/cob_common.git
+- git: 
+    local-name: cob_driver
+    uri: https://github.com/ipa320/cob_driver.git
+- git: 
+    local-name: cob_simulation
+    uri: https://github.com/ipa320/cob_simulation.git
+- git: 
+    local-name: cob_apps
+    uri: https://github.com/ipa320/cob_apps.git
 - git: 
     local-name: umd-ros-pkg
     uri: git://ram.umd.edu/umd-ros-pkg.git
