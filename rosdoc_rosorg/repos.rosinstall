@@ -28,19 +28,19 @@
     uri: http://code.in.tum.de/pubsvn/knowrob/tags/latest
 - git:
     local-name: mapping
-    uri: git://code.in.tum.de/git/mapping.git
+    uri: http://code.in.tum.de/git/mapping.git
 - git: 
     local-name: cram_pl 
-    uri: git://code.in.tum.de/git/cram-pl.git
+    uri: http://code.in.tum.de/git/cram-pl.git
 - git: 
     local-name: cram_highlevel
-    uri: git://code.in.tum.de/git/cram-highlevel.git
+    uri: http://code.in.tum.de/git/cram-highlevel.git
 - git: 
     local-name: cram_rosie
-    uri: git://code.in.tum.de/git/cram-rosie.git
+    uri: http://code.in.tum.de/git/cram-rosie.git
 - git: 
     local-name: cram_pr2
-    uri: git://code.in.tum.de/git/cram-pr2.git
+    uri: http://code.in.tum.de/git/cram-pr2.git
 - svn: 
     local-name: bosch-ros-pkg
     uri: https://bosch-ros-pkg.svn.sourceforge.net/svnroot/bosch-ros-pkg/trunk
@@ -304,7 +304,7 @@
     uri: https://roswifibot.svn.sourceforge.net/svnroot/roswifibot/trunk
 - git:
     local-name: client_rosjava
-    uri: git://code.in.tum.de/git/client-rosjava.git
+    uri: http://code.in.tum.de/git/client-rosjava.git
 - git:
     local-name: ni
     uri: https://github.com/ros-pkg-git/ni.git
