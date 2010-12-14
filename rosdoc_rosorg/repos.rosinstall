@@ -314,3 +314,6 @@
 - git:
     local-name: uuisrc-ros-pkg
     uri: https://github.com/cburbridge/uuisrc-ros-pkg.git
+- svn:
+    local-name: albany-ros-pkg
+    uri: http://albany-ros-pkg.googlecode.com/svn/trunk
