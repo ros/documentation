@@ -51,9 +51,6 @@
     local-name: usc-ros-pkg
     uri: https://usc-ros-pkg.svn.sourceforge.net/svnroot/usc-ros-pkg/trunk
 - svn: 
-    local-name: lis-ros-pkg
-    uri: http://lis-ros-pkg.googlecode.com/svn/trunk 
-- svn: 
     local-name: gt-ros-pkg
     uri: http://gt-ros-pkg.googlecode.com/svn/trunk
 - hg:
