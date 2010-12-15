@@ -308,6 +308,12 @@
 - git:
     local-name: ni
     uri: https://github.com/ros-pkg-git/ni.git
+#- svn:
+#    local-name: mit-ros-pkg-cturtle
+#    uri: https://svn.csail.mit.edu/mit-ros-pkg/branches/cturtle
+#- svn:
+#    local-name: mit-ros-pkg-sandbox
+#    uri: https://svn.csail.mit.edu/mit-ros-pkg/branches/sandbox
 - svn:
     local-name: clearpath-ros-pkg
     uri: http://clearpath-ros-pkg.googlecode.com/svn/trunk
@@ -315,7 +321,7 @@
     local-name: uuisrc-ros-pkg
     uri: https://github.com/cburbridge/uuisrc-ros-pkg.git
 #- svn:
-#    local-name: acin-tuwein
+#    local-name: acin-tuwien
 #    uri: https://svn.acin.tuwien.ac.at/ros/
 - svn:
     local-name: albany-ros-pkg
