@@ -14,6 +14,10 @@
     local-name: geometry 
     uri: https://ros-geometry.googlecode.com/hg
     version: tf_rework
+- hg: 
+    local-name: geometry_experimental
+    uri: https://ros-geometry-experimental.googlecode.com/hg
+    version: default
 - svn: 
     local-name: stanford-ros-pkg
     uri: https://stanford-ros-pkg.googlecode.com/svn/trunk
