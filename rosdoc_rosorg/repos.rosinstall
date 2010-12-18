@@ -41,6 +41,9 @@
 - git: 
     local-name: cram_pr2
     uri: http://code.in.tum.de/git/cram-pr2.git
+- git:
+    local-name: ias_common
+    uri: http://code.in.tum.de/git/ias-common.git
 - svn: 
     local-name: bosch-ros-pkg
     uri: https://bosch-ros-pkg.svn.sourceforge.net/svnroot/bosch-ros-pkg/trunk
