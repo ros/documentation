@@ -330,3 +330,6 @@
 - svn:
     local-name: albany-ros-pkg
     uri: http://albany-ros-pkg.googlecode.com/svn/trunk
+- svn:
+    local-name: webots-ros-pkg
+    uri: http://www.cyberbotics.com/webots-ros-pkg
