@@ -18,6 +18,10 @@
     local-name: geometry_experimental
     uri: https://ros-geometry-experimental.googlecode.com/hg
     version: default
+- hg:
+    local-name: control
+    uri: https://bitbucket.org/sglaser/control
+    version: default
 - svn: 
     local-name: stanford-ros-pkg
     uri: https://stanford-ros-pkg.googlecode.com/svn/trunk
