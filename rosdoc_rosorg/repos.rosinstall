@@ -337,3 +337,10 @@
 - svn:
     local-name: webots-ros-pkg
     uri: http://www.cyberbotics.com/webots-ros-pkg
+- svn:
+    local-name: mapir-ros-pkg 
+    uri: http://mapir-ros-pkg.googlecode.com/svn/trunk
+- svn:
+    local-name: mrpt-ros-pkg 
+    uri: http://mrpt-ros-pkg.googlecode.com/svn/trunk
+
