@@ -346,3 +346,6 @@
 - git:
     local-name: ethzasl_aseba
     uri: https://github.com/ethz-asl/ros-aseba.git
+- svn:
+    local-name: erratic_robot
+    uri: https://ua-ros-pkg.googlecode.com/svn/stacks/erratic_robot/trunk
