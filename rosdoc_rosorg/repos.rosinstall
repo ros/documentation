@@ -278,8 +278,8 @@
     local-name: ais-bonn-ros-pkg
     uri: http://ais-bonn-ros-pkg.googlecode.com/svn/trunk
 - svn:
-    local-name: pi_robot_stack
-    uri: http://pi-robot-ros-pkg.googlecode.com/svn/trunk/pi-robot-ros-stack
+    local-name: pi-robot-ros-pkg
+    uri: http://pi-robot-ros-pkg.googlecode.com/svn/trunk
 - git:
     local-name: rutgers-ros-pkg
     uri: https://github.com/rutgers/rutgers-ros-pkg.git
