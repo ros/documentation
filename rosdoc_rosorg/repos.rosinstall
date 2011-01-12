@@ -248,9 +248,6 @@
     local-name: multimaster-ros-pkg
     uri: http://github.com/jonfink/multimaster-ros-pkg.git
 - git:
-    local-name: flyatar
-    uri: http://github.com/peterpolidoro/Flyatar.git
-- git:
     local-name: ethzasl_message_transport
     uri: https://github.com/ethz-asl/ros-message-transport.git
 - git:
