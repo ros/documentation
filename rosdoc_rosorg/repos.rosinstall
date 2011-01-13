@@ -293,9 +293,6 @@
     local-name: wpdros
     uri: https://github.com/wpd/wpdros.git
 - git:
-    local-name: vicon_mocap
-    uri: https://github.com/pbouffard/vicon_mocap.git
-- git:
     local-name: pgr_camera
     uri: https://github.com/pbouffard/ros.pgr_camera.git
 - git:
