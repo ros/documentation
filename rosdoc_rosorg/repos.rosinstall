@@ -349,3 +349,6 @@
 - bzr: 
     local-name: usbi2c-ros-pkg
     uri: lp:usbi2c-ros-pkg
+- svn:
+    local-name: sscrovers-ros-pkg
+    uri: http://subversion.assembla.com/svn/ssc-rovers/sscrovers-ros-pkg
