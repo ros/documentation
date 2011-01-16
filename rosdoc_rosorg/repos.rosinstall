@@ -348,4 +348,4 @@
     uri: https://github.com/wpi-ros-pkg-git/nao_openni.git
 - bzr: 
     local-name: usbi2c-ros-pkg
-    uri: https://launchpad.net/usbi2c-ros-pkg
+    uri: lp:usbi2c-ros-pkg
