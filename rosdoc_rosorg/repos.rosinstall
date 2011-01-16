@@ -343,3 +343,6 @@
 - bzr:
     local-name: starmac-ros-pkg
     uri: lp:starmac-ros-pkg
+- git:
+    local-name: nao_openni
+    uri: https://github.com/wpi-ros-pkg-git/nao_openni.git
