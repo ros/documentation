@@ -352,6 +352,6 @@
 - svn:
     local-name: sscrovers-ros-pkg
     uri: http://subversion.assembla.com/svn/ssc-rovers/sscrovers-ros-pkg
-#- bzr:
-#    local-name: csiro-asl-ros-pkg
-#    uri:  lp:csiro-asl-ros-pkg
+- bzr:
+    local-name: csiro-asl-ros-pkg
+    uri:  lp:csiro-asl-ros-pkg
