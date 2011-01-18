@@ -355,3 +355,6 @@
 - bzr:
     local-name: csiro-asl-ros-pkg
     uri:  lp:csiro-asl-ros-pkg
+- svn:
+    local-name: tuc-ros-pkg
+    uri: https://borstel.etit.tu-chemnitz.de:8080/svn/tuc-ros-pkg
