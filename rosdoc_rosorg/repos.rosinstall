@@ -253,6 +253,9 @@
 - git:
     local-name: ethzasl_drivers 
     uri: https://github.com/ethz-asl/ros-drivers.git
+- git:
+    local-name: ethzasl_mapping
+    uri: https://github.com/ethz-asl/ros-mapping.git
 - svn:
     local-name: colbot-ros-pkg
     uri: http://colbot.googlecode.com/svn/trunk/colbot-ros-pkg
