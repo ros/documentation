@@ -33,6 +33,20 @@
 # Revision $Id$
 # $Author$
 
+"""
+The stack header is a YAML file that is used by the ROS.org wiki as
+well as rosinstall.  It is similar in concept to the stack manifest
+(stack.xml), but it contains additional data and is in YAML format for
+easier processing in python scripts.
+
+The data in the stack header is not formally specified, but includes:
+
+ * manifest data (description, license, author, depends, review status, url)
+ * rosinstall configuration information (VCS URI, branches, etc...)
+ * packages in stack
+ * depends-on information
+"""
+
 import os
 import sys
 import codecs
@@ -69,6 +83,7 @@ def _generate_stack_headers(ctx, filename, s, repo):
         d['vcs_uri'] = vcstools.get_svn_url(roslib.stacks.get_stack_dir(s))
     else:
         d['vcs_uri'] = repo.uri
+    d['rosinstall'] = repo.rosinstall
 
     # encode unicode entries
     d_copy = d.copy()

@@ -50,8 +50,10 @@ from . import stack_header
 from . import repo_header
 
 
-def generate_docs(ctx, repos, checkout_dir):
-    if 1:
+def generate_docs(ctx, repos, checkout_dir, test=False):
+    if not test:
+        # when we are testing just rosdoc_rosorg, we don't want to do
+        # the more expensive rosdoc build
         artifacts = rosdoc.generate_docs(ctx)
     else:
         artifacts = []
@@ -67,7 +69,7 @@ def generate_docs(ctx, repos, checkout_dir):
     completed_packages = set()
     completed_stacks = set()
     
-    for repo_name, repo in repos.iteritems():
+    for repo_name, repo in repos:
         # workaround for ros aliasing
         if repo_name == 'ros':
             repo_dir = os.path.join(checkout_dir, 'ros-repo')
@@ -124,6 +126,9 @@ def rosorg_main():
     parser.add_option("--checkout", default='checkouts',
                       dest="checkout_dir", metavar="CHECKOUT_DIR",
                       help="path to checkout directory for repos file")
+    parser.add_option("--test", default=False,
+                      dest="test", action="store_true",
+                      help="run in test mode")
 
     options, package_filters = parser.parse_args()
 
@@ -142,7 +147,7 @@ def rosorg_main():
         ctx.quiet = options.quiet        
         ctx.init()
 
-        artifacts = generate_docs(ctx, repos, options.checkout_dir)
+        artifacts = generate_docs(ctx, repos, options.checkout_dir, options.test)
         if options.upload:
             rosdoc.upload.upload(ctx, artifacts, options.upload)
 

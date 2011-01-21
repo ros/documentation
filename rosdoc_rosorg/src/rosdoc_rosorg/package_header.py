@@ -34,6 +34,21 @@
 # $Author$
 from __future__ import with_statement
 
+"""
+The package header is a YAML file that is used by the ROS.org wiki as
+well as rosinstall.  It is similar in concept to the package manifest
+(manifest.xml), but it contains additional data and is in YAML format
+for easier processing in python scripts.
+
+The data in the package header is not formally specified, but includes:
+
+ * manifest data (description, license, author, depends, review status, url)
+ * rosinstall configuration information (VCS URI, branches, etc...)
+ * stack and stack siblings (packages)
+ * depends-on information
+ * msg/srv listing
+"""
+
 import codecs
 import os
 import sys
@@ -102,14 +117,16 @@ def _generate_package_headers(ctx, repo, p, filename):
                 d[k] = []
                 
     # Try to get VCS repo info
-    if repo is not None:
-        d['repository'] = repo.name
-        d['vcs'] = repo.type
-        if repo.type == 'svn':
-            # svn allows partial checkouts, DVCSs generally don't
-            d['vcs_uri'] = vcstools.get_svn_url(roslib.packages.get_pkg_dir(p))
-        else:
-            d['vcs_uri'] = repo.uri
+    d['repository'] = repo.name
+    d['vcs'] = repo.type
+    if repo.type == 'svn':
+        # svn allows partial checkouts, DVCSs generally don't
+        d['vcs_uri'] = vcstools.get_svn_url(roslib.packages.get_pkg_dir(p))
+    else:
+        d['vcs_uri'] = repo.uri
+    if repo.rosinstall:
+        d['rosinstall'] = repo.rosinstall
+            
   
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
         f.write(yaml.dump(d))
@@ -143,5 +160,4 @@ def generate_package_headers(ctx, repo, packages):
           traceback.print_exc()
           print >> sys.stderr, "Unable to generate manifest.yaml for "+p+str(e)
 
-    # TODO: generate repo-specific artifact list
     return artifacts

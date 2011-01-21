@@ -38,13 +38,13 @@ def load_repos(filename):
     """
     Load repository file, which is a rosinstall file with particular semantics
     
-    @return: map of repositories
-    @rtype: {str: Repo}
+    @return: ordered list of repositories
+    @rtype: [(str, Repo)]
     """
     with open(filename) as f:
         data = yaml.load(f.read())
     # rosinstall file is a list of dictionaries
-    repos = {}
+    repos = []
     for d in data:
         type_ = d.keys()[0]
         config = d[type_]
@@ -54,18 +54,23 @@ def load_repos(filename):
             # due to the way rosinstall works, ros-repo can't be
             # called ros
             name = 'ros'
-        uri  = config['uri']
-
-        r = Repo(name, type_, uri)
-        repos[name] = r
+        repos.append((name, Repo(name, type_, config['uri'], d)))
     return repos
     
 class Repo(object):
     
-    def __init__(self, name, type_, uri):
+    def __init__(self, name, type_, uri, rosinstall):
+        """
+        @param name: repository name
+        @param type_: repository VCS type
+        @param uri: repository VCS uri
+        @param rosinstall: rosinstall dictionary configuration data
+        """
         self.name = name
         self.type = type_
         self.uri = uri
+        # rosinstall data
+        self.rosinstall = rosinstall
 
 _api_url = "http://ros.org/doc/api/"
 def package_link(package):
