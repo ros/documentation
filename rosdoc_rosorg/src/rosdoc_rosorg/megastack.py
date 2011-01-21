@@ -47,11 +47,7 @@ import vcstools
 from roslib.stacks import STACK_FILE
 
 
-def generate_megastack(repos):
-    # for testing, we fall back on /tmp
-    workspace = os.environ.get('WORKSPACE', '/tmp')
-    checkouts_dir = os.path.join(workspace, 'rosdoc_checkout')
-
+def generate_megastack(ctx, repos, checkouts_dir):
     all_stacks = { }
     for repo_name, repo in repos:
         name = repo_name
@@ -135,5 +131,7 @@ def generate_megastack(repos):
             print "error parsing %s"%stack_p
 
     print "writing megastack ..."
-    with open('megastack.xml', 'w') as f:
+    fname = os.path.join(ctx.docdir, 'megastack2.xml')
+    with open(fname, 'w') as f:
         f.write(stacks_node.toxml(encoding='utf-8'))
+    return [fname]

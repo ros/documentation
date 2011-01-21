@@ -120,18 +120,33 @@ def generate_docs(ctx, repos, checkout_dir, test=False):
         completed_packages.update(packages)
         completed_stacks.update(stacks)        
     
+    # we don't include package artifacts because they are already covered elsewhere
+    return artifacts + stack_dirs
+
+def generate_rosbrowse(ctx, repos, checkout_dir, test=False):
+    timings = ctx.timings
+    timings['megamanifest'] = 0.
+    timings['megastack'] = 0.
+
+    artifacts = []
     try:
         #TODO: eventually phase out megamanifest/stack.  Have to
         #rewrite PHP front end, though.
-        megamanifest.generate_megamanifest(repos)
-        megastack.generate_megastack(repos)
+
+        #TODO: pass through checkout_dir
+        start = time.time()
+        artifacts.extend(megamanifest.generate_megamanifest(ctx, repos, checkout_dir))
+        timings['megamanifest'] += time.time() - start
+        
+        start = time.time()
+        artifacts.extend(megastack.generate_megastack(ctx, repos, checkout_dir))
+        timings['megastack'] += time.time() - start        
     except:
         print >> sys.stderr, "megamanifest generation failed"
         traceback.print_exc()
         
-    # we don't include package artifacts because they are already covered elsewhere
-    return artifacts + stack_dirs
-
+    return artifacts
+    
 def rosorg_main():
     parser = rosdoc.get_optparse('rosdoc_rosorg')
     parser.add_option("--repos", default=None,
@@ -143,6 +158,9 @@ def rosorg_main():
     parser.add_option("--test", default=False,
                       dest="test", action="store_true",
                       help="run in test mode")
+    parser.add_option("--rosbrowse", default=False,
+                      dest="rosbrowse", action="store_true",
+                      help="run rosbrowse indexer instead")
 
     options, package_filters = parser.parse_args()
 
@@ -161,7 +179,12 @@ def rosorg_main():
         ctx.quiet = options.quiet        
         ctx.init()
 
-        artifacts = generate_docs(ctx, repos, options.checkout_dir, options.test)
+        if not options.rosbrowse:
+            artifacts = generate_docs(ctx, repos, options.checkout_dir, options.test)
+        else:
+            #TODO: obey output directory
+            generate_rosbrowse(ctx, repos, options.checkout_dir)
+            
         if options.upload:
             rosdoc.upload.upload(ctx, artifacts, options.upload)
 

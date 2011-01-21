@@ -42,11 +42,7 @@ import roslib.packages
 import vcstools
 from roslib.manifest import MANIFEST_FILE
 
-def generate_megamanifest(repos):
-    # for testing, we fall back on /tmp
-    workspace = os.environ.get('WORKSPACE', '/tmp')
-    checkouts_dir = os.path.join(workspace, 'rosdoc_checkout')
-    
+def generate_megamanifest(ctx, repos, checkouts_dir):
     all_pkgs = { }
     for repo_name, repo in repos:
         name = repo_name
@@ -119,5 +115,7 @@ def generate_megamanifest(repos):
             print "error parsing %s"%manifest_p
 
     print "writing megamanifest..."
-    with open('megamanifest.xml', 'w') as f:
+    fname = os.path.join(ctx.docdir, 'megamanifest2.xml')
+    with open(fname, 'w') as f:
         f.write(pkgs_node.toxml(encoding='utf-8'))
+    return [fname]
