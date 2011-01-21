@@ -48,7 +48,8 @@ from .core import load_repos
 from . import package_header
 from . import stack_header
 from . import repo_header
-
+from . import megamanifest
+from . import megastack
 
 def generate_docs(ctx, repos, checkout_dir, test=False):
     if not test:
@@ -70,6 +71,9 @@ def generate_docs(ctx, repos, checkout_dir, test=False):
     completed_stacks = set()
     
     for repo_name, repo in repos:
+        if test:
+            continue
+        print "repo", repo_name
         # workaround for ros aliasing
         if repo_name == 'ros':
             repo_dir = os.path.join(checkout_dir, 'ros-repo')
@@ -77,6 +81,7 @@ def generate_docs(ctx, repos, checkout_dir, test=False):
             repo_dir = os.path.join(checkout_dir, repo_name)
             
         if not os.path.exists(repo_dir):
+            print >> sys.stderr, "checkout [%s] doesn't exist"%(repo_dir)
             continue
 
         # Packages
@@ -115,6 +120,15 @@ def generate_docs(ctx, repos, checkout_dir, test=False):
         completed_packages.update(packages)
         completed_stacks.update(stacks)        
     
+    try:
+        #TODO: eventually phase out megamanifest/stack.  Have to
+        #rewrite PHP front end, though.
+        megamanifest.generate_megamanifest(repos)
+        megastack.generate_megastack(repos)
+    except:
+        print >> sys.stderr, "megamanifest generation failed"
+        traceback.print_exc()
+        
     # we don't include package artifacts because they are already covered elsewhere
     return artifacts + stack_dirs
 
