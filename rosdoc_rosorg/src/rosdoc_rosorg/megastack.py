@@ -31,11 +31,9 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Author: Steven Bellens, Morgan Quigley (adapted from generate_megamanifest.py)
+# Author: Steven Bellens, Morgan Quigley (adapted from generate_megamanifest.py), kwc
 # Revision $Id: generate_megastack.py 12920 2011-01-21 03:15:30Z kwc $
 
-from __future__ import with_statement
-import roslib; roslib.load_manifest('rosbrowse')
 import os
 import sys
 from subprocess import call, check_call, Popen
