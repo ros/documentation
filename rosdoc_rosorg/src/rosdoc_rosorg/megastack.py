@@ -91,8 +91,11 @@ def generate_megastack(ctx, repos, checkouts_dir):
                     else:
                         #DVCS systems don't allow URL sub-indexing
                         override_path = ''
-                        if 'github.com/' in uri and uri.endswith('.git'):
-                            true_uri = uri[:-4]
+                        if vcs == 'git': 
+                            # give the package the uri of its submodule, if appropriate 
+                            vcs1, true_uri = vcstools.guess_vcs_uri(stack_path) 
+                            if 'github.com/' in uri and uri.endswith('.git'):
+                                true_uri = uri[:-4]
                 except:
                     pass
                 #print "stack name: %s" % stack
