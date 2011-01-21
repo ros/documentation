@@ -5,6 +5,9 @@
     local-name: ros-repo
     uri: https://code.ros.org/svn/ros/externals/rosdoc_rosorg
 - svn:
+    local-name: rosorg
+    uri: https://code.ros.org/svn/ros/stacks/rosorg/trunk
+- svn:
     local-name: ros-pkg 
     uri: https://code.ros.org/svn/ros-pkg/externals/rosdoc_rosorg
 - svn:
