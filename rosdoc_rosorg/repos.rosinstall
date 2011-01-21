@@ -361,3 +361,6 @@
 - svn:
     local-name: tuc-ros-pkg
     uri: https://borstel.etit.tu-chemnitz.de:8080/svn/tuc-ros-pkg/trunk
+- git:
+    local-name: flyatar
+    uri: flyatar git http://github.com/peterpolidoro/Flyatar.git
