@@ -130,10 +130,6 @@ def generate_rosbrowse(ctx, repos, checkout_dir, test=False):
 
     artifacts = []
     try:
-        #TODO: eventually phase out megamanifest/stack.  Have to
-        #rewrite PHP front end, though.
-
-        #TODO: pass through checkout_dir
         start = time.time()
         artifacts.extend(megamanifest.generate_megamanifest(ctx, repos, checkout_dir))
         timings['megamanifest'] += time.time() - start
