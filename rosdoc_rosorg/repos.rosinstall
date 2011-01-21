@@ -78,7 +78,7 @@
     uri: https://phidget.foote-ros-pkg.googlecode.com/hg/
 - svn: 
     local-name: brown-ros-pkg
-    uri: http://brown-ros-pkg.googlecode.com/svn/trunk/experimental/
+    uri: http://brown-ros-pkg.googlecode.com/svn/trunk/experimental
 - svn: 
     local-name: ros-engagement
     uri: http://ros-engagement.svn.sourceforge.net/svnroot/ros-engagement/trunk
@@ -144,7 +144,7 @@
     uri: https://svn-agbkb.informatik.uni-bremen.de/dfki-sks-ros-pkg/trunk
 - svn: 
     local-name: isr-uc-ros-pkg
-    uri: http://isr-uc-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://isr-uc-ros-pkg.googlecode.com/svn/trunk
 - git: 
     local-name: au-automow
     uri: http://github.com/wjwwood/au-automow.git
@@ -231,7 +231,7 @@
     uri: http://github.com/siue-cs/siue-ros-pkg.git
 - svn:
     local-name: vanadium-ros-pkg
-    uri: http://vanadium-ros-pkg.googlecode.com/svn/trunk/
+    uri: http://vanadium-ros-pkg.googlecode.com/svn/trunk
 - svn:
     local-name: veltrop-ros-pkg
     uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk/veltrop-ros-pkg
@@ -240,10 +240,10 @@
     uri: lp:sr-ros-interface 
 - svn:
     local-name: hwu-osl-ros-pkg
-    uri: http://hwu-osl-ros-pkg.googlecode.com/svn/trunk/ 
+    uri: http://hwu-osl-ros-pkg.googlecode.com/svn/trunk
 - svn:
     local-name: seabee3-ros-pkg
-    uri: http://seabee3-ros-pkg.googlecode.com/svn/trunk/cturtle/
+    uri: http://seabee3-ros-pkg.googlecode.com/svn/trunk/cturtle
 - git:
     local-name: cwru-ros-pkg
     uri: http://github.com/cwru-robotics/cwru-ros-pkg.git
