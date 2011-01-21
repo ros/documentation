@@ -122,6 +122,9 @@ def _generate_package_headers(ctx, repo, p, filename):
     if repo.type == 'svn':
         # svn allows partial checkouts, DVCSs generally don't
         d['vcs_uri'] = vcstools.get_svn_url(roslib.packages.get_pkg_dir(p))
+    elif repo.type == 'git':
+        repo_type, repo_uri = vcstools.guess_vcs_uri(roslib.packages.get_pkg_dir(p))
+        d['vcs_uri'] = repo_uri
     else:
         d['vcs_uri'] = repo.uri
     if repo.rosinstall:

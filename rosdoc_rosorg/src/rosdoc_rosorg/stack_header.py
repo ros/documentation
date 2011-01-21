@@ -81,6 +81,9 @@ def _generate_stack_headers(ctx, filename, s, repo):
     if repo.type == 'svn':
         # svn allows partial checkouts, DVCSs generally don't
         d['vcs_uri'] = vcstools.get_svn_url(roslib.stacks.get_stack_dir(s))
+    elif repo.type == 'git':
+        repo_type, repo_uri = vcstools.guess_vcs_uri(roslib.stacks.get_stack_dir(s))
+        d['vcs_uri'] = repo_uri
     else:
         d['vcs_uri'] = repo.uri
     d['rosinstall'] = repo.rosinstall
