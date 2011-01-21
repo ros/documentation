@@ -182,8 +182,7 @@ def rosorg_main():
         if not options.rosbrowse:
             artifacts = generate_docs(ctx, repos, options.checkout_dir, options.test)
         else:
-            #TODO: obey output directory
-            generate_rosbrowse(ctx, repos, options.checkout_dir)
+            artifacts = generate_rosbrowse(ctx, repos, options.checkout_dir)
             
         if options.upload:
             rosdoc.upload.upload(ctx, artifacts, options.upload)
