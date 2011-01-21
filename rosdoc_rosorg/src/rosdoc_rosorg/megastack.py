@@ -132,7 +132,7 @@ def generate_megastack(ctx, repos, checkouts_dir):
             print "error parsing %s"%stack_p
 
     print "writing megastack ..."
-    fname = os.path.join(ctx.docdir, 'megastack2.xml')
+    fname = os.path.join(ctx.docdir, 'megastack.xml')
     with open(fname, 'w') as f:
         f.write(stacks_node.toxml(encoding='utf-8'))
     return [fname]

@@ -118,7 +118,7 @@ def generate_megamanifest(ctx, repos, checkouts_dir):
             print "error parsing %s"%manifest_p
 
     print "writing megamanifest..."
-    fname = os.path.join(ctx.docdir, 'megamanifest2.xml')
+    fname = os.path.join(ctx.docdir, 'megamanifest.xml')
     with open(fname, 'w') as f:
         f.write(pkgs_node.toxml(encoding='utf-8'))
     return [fname]
