@@ -84,7 +84,7 @@ def generate_megamanifest(ctx, repos, checkouts_dir):
                         override_path = ''
                         if vcs == 'git': 
                             # give the package the uri of its submodule, if appropriate 
-                            vcs1, true_uri = vcstools.guess_vcs_uri(stack_path) 
+                            vcs1, true_uri = vcstools.guess_vcs_uri(pkg_path) 
                             if 'github.com/' in uri and uri.endswith('.git'):
                                 true_uri = uri[:-4]
                 except:
