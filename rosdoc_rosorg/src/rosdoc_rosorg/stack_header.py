@@ -78,15 +78,19 @@ def _generate_stack_headers(ctx, filename, s, repo):
 
     d['vcs'] = repo.type
     d['repository'] = repo.name
+    d['rosinstall'] = repo.rosinstall.copy()
     if repo.type == 'svn':
         # svn allows partial checkouts, DVCSs generally don't
         d['vcs_uri'] = vcstools.get_svn_url(roslib.stacks.get_stack_dir(s))
+        # update svn rules
+        d['rosinstall']['svn']['uri'] = d['vcs_uri']
     elif repo.type == 'git':
         repo_type, repo_uri = vcstools.guess_vcs_uri(roslib.stacks.get_stack_dir(s))
         d['vcs_uri'] = repo_uri
+        # update git rules
+        d['rosinstall']['git']['uri'] = repo_uri
     else:
         d['vcs_uri'] = repo.uri
-    d['rosinstall'] = repo.rosinstall
 
     # encode unicode entries
     d_copy = d.copy()

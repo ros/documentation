@@ -119,7 +119,7 @@ def _generate_package_headers(ctx, repo, p, filename):
     # Try to get VCS repo info
     d['repository'] = repo.name
     d['vcs'] = repo.type
-    d['rosinstall'] = repo.rosinstall
+    d['rosinstall'] = repo.rosinstall.copy()
     if repo.type == 'svn':
         # svn allows partial checkouts, DVCSs generally don't
         d['vcs_uri'] = vcstools.get_svn_url(roslib.packages.get_pkg_dir(p))
@@ -130,7 +130,7 @@ def _generate_package_headers(ctx, repo, p, filename):
         repo_type, repo_uri = vcstools.guess_vcs_uri(roslib.packages.get_pkg_dir(p))
         d['vcs_uri'] = repo_uri
         # update git rules
-        d['rosinstall']['git']['uri'] = d['vcs_uri']        
+        d['rosinstall']['git']['uri'] = repo_uri
     else:
         d['vcs_uri'] = repo.uri
   
