@@ -364,9 +364,9 @@
 - svn:
     local-name: tuc-ros-pkg
     uri: https://borstel.etit.tu-chemnitz.de:8080/svn/tuc-ros-pkg/trunk
-- git:
-    local-name: flyatar
-    uri: http://github.com/peterpolidoro/Flyatar.git
+#- git:
+#    local-name: flyatar
+#    uri: http://github.com/peterpolidoro/Flyatar.git
 - git:
     local-name: colincsl-kinect
     uri: https://github.com/colincsl/Colins-Kinect-Demos
