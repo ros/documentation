@@ -367,3 +367,6 @@
 - git:
     local-name: flyatar
     uri: http://github.com/peterpolidoro/Flyatar.git
+- git:
+    local-name: colincsl-kinect
+    uri: https://github.com/colincsl/Colins-Kinect-Demos
