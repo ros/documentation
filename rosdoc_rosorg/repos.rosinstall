@@ -370,3 +370,6 @@
 - git:
     local-name: colincsl-kinect
     uri: https://github.com/colincsl/Colins-Kinect-Demos
+- svn:
+    local-name: alufr-kinect-experimental
+    uri: http://alufr-ros-pkg.googlecode.com/svn/branches/kinect-experimental
