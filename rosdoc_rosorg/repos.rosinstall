@@ -350,9 +350,9 @@
 - svn:
     local-name: erratic_robot
     uri: https://ua-ros-pkg.googlecode.com/svn/stacks/erratic_robot/trunk
-- bzr:
-    local-name: starmac-ros-pkg
-    uri: lp:starmac-ros-pkg
+#- bzr:
+#    local-name: starmac-ros-pkg
+#    uri: lp:starmac-ros-pkg
 - git:
     local-name: nao_openni
     uri: https://github.com/wpi-ros-pkg-git/nao_openni.git
