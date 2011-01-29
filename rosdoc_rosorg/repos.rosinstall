@@ -125,7 +125,7 @@
     local-name: kul-ros-pkg
     uri: http://svn.mech.kuleuven.be/repos/orocos/trunk/kul-ros-pkg
 - git:
-    local-name: orocos_toolchain_ros.git
+    local-name: orocos_toolchain_ros
     uri: http://git.mech.kuleuven.be/robotics/orocos_toolchain_ros.git
     version: unstable
 - svn: 
