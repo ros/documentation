@@ -227,9 +227,9 @@
 - hg:
     local-name: amor-ros-pkg
     uri: https://amor-ros-pkg.googlecode.com/hg/
-- bzr:
-    local-name: cmr-ros-pkg
-    uri: lp:cmr
+#- bzr:
+#    local-name: cmr-ros-pkg
+#    uri: lp:cmr
 - git:
     local-name: siue-ros-pkg
     uri: http://github.com/siue-cs/siue-ros-pkg.git
@@ -239,9 +239,9 @@
 - svn:
     local-name: veltrop-ros-pkg
     uri: https://veltrop-ros-pkg.svn.sourceforge.net/svnroot/veltrop-ros-pkg/trunk/veltrop-ros-pkg
-- bzr:
-    local-name: sr-ros-interface
-    uri: lp:sr-ros-interface 
+#- bzr:
+#    local-name: sr-ros-interface
+#    uri: lp:sr-ros-interface 
 - svn:
     local-name: hwu-osl-ros-pkg
     uri: http://hwu-osl-ros-pkg.googlecode.com/svn/trunk
@@ -356,15 +356,15 @@
 - git:
     local-name: nao_openni
     uri: https://github.com/wpi-ros-pkg-git/nao_openni.git
-- bzr: 
-    local-name: usbi2c-ros-pkg
-    uri: lp:usbi2c-ros-pkg
+#- bzr: 
+#    local-name: usbi2c-ros-pkg
+#    uri: lp:usbi2c-ros-pkg
 - svn:
     local-name: sscrovers-ros-pkg
     uri: http://subversion.assembla.com/svn/ssc-rovers/sscrovers-ros-pkg
-- bzr:
-    local-name: csiro-asl-ros-pkg
-    uri:  lp:csiro-asl-ros-pkg
+#- bzr:
+#    local-name: csiro-asl-ros-pkg
+#    uri:  lp:csiro-asl-ros-pkg
 - svn:
     local-name: tuc-ros-pkg
     uri: https://borstel.etit.tu-chemnitz.de:8080/svn/tuc-ros-pkg/trunk
