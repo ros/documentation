@@ -50,7 +50,12 @@ def generate_megamanifest(ctx, repos, checkouts_dir):
         uri = repo.uri
 
         print "snarfing manifests in local copy of %s"%name
-        rel_path = os.path.join(checkouts_dir, name)
+        # workaround for ros aliasing
+        if repo_name == 'ros':
+            rel_path = os.path.join(checkouts_dir, 'ros-repo')
+        else:
+            rel_path = os.path.join(checkouts_dir, repo_name)
+        
         abs_co_path = os.path.abspath(rel_path)
         # cache paths into repo_pkgs
         repos_pkgs = {}
