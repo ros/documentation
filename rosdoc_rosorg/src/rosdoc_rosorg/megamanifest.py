@@ -100,11 +100,15 @@ def generate_megamanifest(ctx, repos, checkouts_dir):
     pkgs_dom = getDOMImplementation().createDocument(None, 'pkgs', None)
     pkgs_node = pkgs_dom.documentElement
 
+    mega_yaml = []
+    
     for k, v in all_pkgs.iteritems():
         pkg, repo, uri, rel_path, override_path = v
         manifest_p = rel_path+os.sep+MANIFEST_FILE
         try:
             manifest = parse(manifest_p)
+            mega_yaml.append({'name': pkg, 'brief': 'tbd', 'repo': repo})
+            
             manifest_node = manifest.documentElement
             manifest_node.setAttribute("name", k)
             manifest_node.setAttribute("repo", repo)
@@ -126,4 +130,9 @@ def generate_megamanifest(ctx, repos, checkouts_dir):
     fname = os.path.join(ctx.docdir, 'megamanifest.xml')
     with open(fname, 'w') as f:
         f.write(pkgs_node.toxml(encoding='utf-8'))
-    return [fname]
+
+    fname2 = os.path.join(ctx.docdir, 'megamanifest.yaml')
+    with open(fname2, 'w') as f:
+        f.write(yaml.safe_dump(mega_yaml, default_style="'"))
+
+    return [fname, fname2]

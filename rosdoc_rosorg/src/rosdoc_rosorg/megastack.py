@@ -117,6 +117,9 @@ def generate_megastack(ctx, repos, checkouts_dir):
         stack_p = rel_path+os.sep+STACK_FILE
         try:
             stack = parse(stack_p)
+            mega_yaml = []
+            mega_yaml.append({'name': stack, 'brief': 'tbd', 'repo': repo})
+            
             stack_node = stack.documentElement
             stack_node.setAttribute("name", k)
             stack_node.setAttribute("repo", repo)
@@ -139,4 +142,9 @@ def generate_megastack(ctx, repos, checkouts_dir):
     fname = os.path.join(ctx.docdir, 'megastack.xml')
     with open(fname, 'w') as f:
         f.write(stacks_node.toxml(encoding='utf-8'))
-    return [fname]
+
+    fname2 = os.path.join(ctx.docdir, 'megastack.yaml')
+    with open(fname2, 'w') as f:
+        f.write(yaml.safe_dump(mega_yaml, default_style="'"))
+
+    return [fname, fname2]
