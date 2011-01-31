@@ -377,3 +377,6 @@
 - svn:
     local-name: freiburg_kinect
     uri: http://alufr-ros-pkg.googlecode.com/svn/branches/freiburg_kinect-experimental
+- bzr:
+    local-name: ros-heyu-x10
+    uri: lp:ros-heyu-x10
