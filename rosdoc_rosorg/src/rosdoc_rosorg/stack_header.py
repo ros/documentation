@@ -111,8 +111,7 @@ def _generate_stack_headers(ctx, filename, s, repo):
     if not ctx.quiet:
         print "writing stack properties to", filename
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
-        f.write(yaml.safe_dump(d))
-  
+        f.write(yaml.safe_dump(d, default_style="'"))  
 
 def generate_stack_headers(ctx, repo, stacks):
     """

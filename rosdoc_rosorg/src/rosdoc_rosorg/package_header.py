@@ -135,7 +135,7 @@ def _generate_package_headers(ctx, repo, p, filename):
         d['vcs_uri'] = repo.uri
   
     with codecs.open(filename, mode='w', encoding='utf-8') as f:
-        f.write(yaml.dump(d))
+        f.write(yaml.safe_dump(d, default_style="'"))
     
 def generate_package_headers(ctx, repo, packages):
     """

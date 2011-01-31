@@ -96,6 +96,6 @@ def generate_repo_header(ctx, repo, stack_files, package_files):
 
     with open(filename, 'w') as f:
         print "generating repo header %s"%(filename)
-        f.write(yaml.dump(repo_data))
-
+        f.write(yaml.safe_dump(repo_data, default_style="'"))
+        
     return [filename_dir]
