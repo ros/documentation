@@ -68,6 +68,7 @@ def _generate_package_headers(ctx, repo, p, filename):
     m = ctx.manifests[p]
     m.description = m.description or ''
     d = {
+        'name': p,
         'brief': m.brief,
         'description': m.description.strip() or '',
         'license': m.license or '',

@@ -64,16 +64,17 @@ from .core import Repo
 def _generate_stack_headers(ctx, filename, s, repo):
     m = ctx.stack_manifests[s]
     d = {
-      'brief': m.brief,
-      'description': m.description.strip() or '',
-      'license': m.license or '',
-      'authors': m.author or '',
-      'depends': [d.stack for d in m.depends],
-      'review_status': m.status or '',
-      'review_notes': m.notes or '',
-      'url': m.url,
-      'packages': roslib.stacks.packages_of(s),
-      'depends_on': roslib.rospack.rosstack_depends_on_1(s),
+        'name': s,
+        'brief': m.brief,
+        'description': m.description.strip() or '',
+        'license': m.license or '',
+        'authors': m.author or '',
+        'depends': [d.stack for d in m.depends],
+        'review_status': m.status or '',
+        'review_notes': m.notes or '',
+        'url': m.url,
+        'packages': roslib.stacks.packages_of(s),
+        'depends_on': roslib.rospack.rosstack_depends_on_1(s),
       }
 
     d['vcs'] = repo.type
