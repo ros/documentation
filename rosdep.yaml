@@ -11,7 +11,7 @@ epydoc:
   ubuntu: python-epydoc
   debian: python-epydoc
   fedora: epydoc
-  macports: py25-epydoc
+  macports: py26-epydoc
   gentoo: dev-python/epydoc
   freebsd: epydoc
 python-sphinx:
