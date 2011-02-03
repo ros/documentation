@@ -164,7 +164,7 @@ def main():
         start = time.time()
         if options.upload:
             upload.upload(ctx, artifacts, options.upload)
-        ctx.timings['upload'] = time.time()
+        ctx.timings['upload'] = time.time() - start
 
         print "Timings"
         for k, v in ctx.timings.iteritems():

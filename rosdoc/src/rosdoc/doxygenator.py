@@ -82,9 +82,7 @@ def generate_msg_srv_includes(package, tmp, to_delete):
 ## @param html_dir str: directory to store doxygen files                    
 def create_package_template(package, rd_config, m, path, html_dir,
                             header_filename, footer_filename, example_path):
-    # TODO: allow rd_config to specify excludes and whatnot
-    
-    # TODO: replace with general purpose key/value parser/substitution to enable <export><doxygen key="foo" val="var"></export> feature
+    # TODO: replace with general purpose key/value parser/substitution
 
     # set defaults for overridable keys
     file_patterns = '*.c *.cpp *.h *.cc *.hh *.hpp *.py *.dox'
@@ -100,32 +98,32 @@ def create_package_template(package, rd_config, m, path, html_dir,
     for e in m.get_export('doxygen', 'file-patterns'):
         file_patterns = e
 
-    # rd_config take precedence
-    if rd_config:
-        if 'excludes' in rd_config:
-            excludes = rd_config['excludes']
-        # there's a bug in ROS 1.0. The property is EXCLUDE, so for
-        # ROS 1.2 I'm shadowing it with both. In ROS 1.4 I plan to
-        # switch to documentation to be uniform.
-        if 'exclude' in rd_config:
-            excludes = rd_config['exclude']
-        if 'file_patterns' in rd_config:
-            file_patterns = rd_config['file_patterns']
-
-        exclude_patterns = rd_config.get('exclude_patterns', '')
+    # rd_config take precedence. default to empty dir so vars logic below works
+    if not rd_config:
+        rd_config = {}
        
     include_path = roslib.rospack.rospackexec(['cflags-only-I',package])
-
+    
     # example path is where htmlinclude operates
-    vars = { '$INPUT':  path, '$PROJECT_NAME': package,
-             '$EXAMPLE_PATH': "%s %s"%(path, example_path),
-             '$EXCLUDE_PROP': excludes, '$FILE_PATTERNS': file_patterns,
-             '$EXCLUDE_PATTERNS': exclude_patterns,
-             '$HTML_OUTPUT': os.path.abspath(html_dir),
-             '$HTML_HEADER': header_filename, '$HTML_FOOTER': footer_filename,
-             '$OUTPUT_DIRECTORY': html_dir,
-             '$INCLUDE_PATH': include_path }
-    return instantiate_template(doxy_template, vars)
+    dvars = { '$INPUT':  path, '$PROJECT_NAME': package,
+              '$EXAMPLE_PATH': "%s %s"%(path, example_path),
+              '$EXCLUDE_PROP': rd_config.get('exclude', excludes),
+              '$FILE_PATTERNS': rd_config.get('file_patterns', file_patterns),
+              '$EXCLUDE_PATTERNS': rd_config.get('exclude_patterns', ''),
+              '$HTML_OUTPUT': os.path.abspath(html_dir),
+              '$HTML_HEADER': header_filename, '$HTML_FOOTER': footer_filename,
+              '$OUTPUT_DIRECTORY': html_dir,
+              '$INCLUDE_PATH': include_path,
+
+              '$JAVADOC_AUTOBRIEF': rd_config.get('javadoc_autobrief', 'NO'),
+              '$MULTILINE_CPP_IS_BRIEF': rd_config.get('multiline_cpp_is_brief', 'NO'),
+              '$TAB_SIZE': rd_config.get('tab_size', '8'),
+              '$ALIASES': rd_config.get('aliases', ''),
+              '$EXAMPLE_PATTERNS': rd_config.get('example_patterns', ''),
+              '$IMAGE_PATH': rd_config.get('image_path', path), #default to $INPUT
+              '$EXCLUDE_SYMBOLS': rd_config.get('exclude_symbols', ''),
+              }
+    return instantiate_template(doxy_template, dvars)
 
 ## Processes manifest for package and then generates templates for
 ## header, footer, and manifest include file
