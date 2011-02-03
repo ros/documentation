@@ -16,3 +16,4 @@ epydoc:
   freebsd: epydoc
 python-sphinx:
   ubuntu: python-sphinx
+  macports: py26-sphinx
