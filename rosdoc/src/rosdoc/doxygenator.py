@@ -363,8 +363,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 shutil.copyfile(dstyles_in, dstyles_css)
 
                 success.append(package)
-            except:
-                print >> sys.stderr, "ERROR: Doxygen of package [%s] failed"%(package)
+            except Exception as e:
+                print >> sys.stderr, "ERROR: Doxygen of package [%s] failed: %s"%(package, str(e))
             finally:
                 for f in files:
                     f.close()

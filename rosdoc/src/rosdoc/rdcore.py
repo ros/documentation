@@ -35,6 +35,7 @@
 from __future__ import with_statement
 
 import os
+import traceback
 import sys
 from subprocess import Popen, PIPE
 
@@ -218,7 +219,6 @@ class RosdocContext(object):
                     print "loading stack manifest %s"%(f)
                 stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
             except:
-                import traceback
                 traceback.print_exc()
                 print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
                 
@@ -282,9 +282,8 @@ def li_package_links(ctx, package, packages, docdir, package_htmldir=None):
 def instantiate_template(tmpl, vars):
     for k, v in vars.iteritems():
         try:
-            tmpl = tmpl.replace(k, v)
+            tmpl = tmpl.replace(k, str(v))
         except:
-            # soft fail
             traceback.print_exc()
     return tmpl
 
