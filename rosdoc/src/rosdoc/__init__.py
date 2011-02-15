@@ -112,7 +112,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
     except Exception, e:
         traceback.print_exc()
-        print >> sys.stderr, "package header generation failed"
+        print >> sys.stderr, "doxygenator completely failed"
         doxy_success = []                
     timings['doxygen'] = time.time() - start
 
