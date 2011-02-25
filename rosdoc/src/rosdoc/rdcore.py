@@ -216,7 +216,7 @@ class RosdocContext(object):
             f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
             try:
                 if not self.quiet:
-                    print "loading stack manifest %s"%(f)
+                    print "+stack[%s]"%(stack)
                 stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
             except:
                 traceback.print_exc()
