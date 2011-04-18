@@ -282,7 +282,7 @@ def li_package_links(ctx, package, packages, docdir, package_htmldir=None):
 def instantiate_template(tmpl, vars):
     for k, v in vars.iteritems():
         try:
-            tmpl = tmpl.replace(k, str(v))
+            tmpl = tmpl.replace(k, str(v).encode('utf-8'))
         except:
             traceback.print_exc()
     return tmpl
