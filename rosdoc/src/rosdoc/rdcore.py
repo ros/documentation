@@ -143,6 +143,19 @@ class RosdocContext(object):
                 print package, path
             packages[package] = path
 
+        # cache all stack manifests due to issue with empty stacks not being noted by _crawl_deps
+        stack_manifests = self.stack_manifests
+        rosstack_list = roslib.rospack.rosstackexec(['list']).split('\n')
+        rosstack_list = [x.split(' ') for x in rosstack_list if ' ' in x]
+        for stack, path in rosstack_list:
+
+            f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
+            try:
+                stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
+            except:
+                traceback.print_exc()
+                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
+
         self.doc_packages = [p for p in packages if self.should_document(p)]
         self._crawl_deps()
         
@@ -212,16 +225,8 @@ class RosdocContext(object):
                 del self.packages[b]
         stack_manifests = self.stack_manifests
         for stack, path in stacks.iteritems():
-
-            f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
-            try:
-                if not self.quiet:
-                    print "+stack[%s]"%(stack)
-                stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
-            except:
-                traceback.print_exc()
-                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
-                
+            if not self.quiet:
+                print "+stack[%s]"%(stack)
 
 def compute_relative(src, target):
     s1, s2 = [p.split(os.sep) for p in [src, target]]
