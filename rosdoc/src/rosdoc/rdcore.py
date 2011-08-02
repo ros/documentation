@@ -32,8 +32,6 @@
 #
 # Revision $Id$
 
-from __future__ import with_statement
-
 import os
 import traceback
 import sys
@@ -90,15 +88,15 @@ class RosdocContext(object):
         if not rd_config:
             return builder == 'doxygen'
         if type(rd_config) != list:
-            print >> sys.stderr, "WARNING: package [%s] has an invalid rosdoc config"%package
+            sys.stderr.write("WARNING: package [%s] has an invalid rosdoc config\n"%(package))
             return False            
         try:
             return len([d for d in rd_config if d['builder'] == builder]) > 0
         except KeyError:
-            print >> sys.stderr, "config file for [%s] is invalid, missing required 'builder' key"%package
+            sys.stderr.write("config file for [%s] is invalid, missing required 'builder' key\n"%(package))
             return False
         except:
-            print >> sys.stderr, "config file for [%s] is invalid"%package
+            sys.stderr.write("config file for [%s] is invalid\n"%(package))
             return False
             
     def should_document(self, package):
@@ -184,9 +182,7 @@ class RosdocContext(object):
                         p = roslib.stacks.get_stack_dir(stack)
                         stacks[stack] = p
                     except:
-                        print >> sys.stderr, "cannot locate directory of stack [%s]"%stack
-            elif not self.quiet:
-                print "-package[%s]"%(package)
+                        sys.stderr.write("cannot locate directory of stack [%s]\n"%(stack))
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
             try:
@@ -212,12 +208,13 @@ class RosdocContext(object):
                         config_p = os.path.join(path, e)
                         with open(config_p, 'r') as config_f:
                             rd_configs[package] = yaml.load(config_f)
-                    except Exception, e:
-                        print >> sys.stderr, "ERROR: unable to load rosdoc config file [%s]: %s"%(config_p, str(e))
+                    except Exception as e:
+                        sys.stderr.write("ERROR: unable to load rosdoc config file [%s]: %s\n"%(config_p, str(e)))
                     
 
             except:
-                print >> sys.stderr, "WARN: Package '%s' does not have a valid manifest.xml file, manifest information will not be included in docs"%package
+                if self.should_document(package):
+                    sys.stderr.write("WARN: Package '%s' does not have a valid manifest.xml file, manifest information will not be included in docs\n"%(package))
                 bad.append(package)
 
         for b in bad:
@@ -252,13 +249,13 @@ _TEMPLATES_DIR = 'templates'
 def load_tmpl(filename):
     filename = os.path.join(roslib.packages.get_pkg_dir('rosdoc'), _TEMPLATES_DIR, filename)
     if not os.path.isfile(filename):
-        print >> sys.stderr, "Cannot locate template file '%s'"%filename
+        sys.stderr.write("Cannot locate template file '%s'\n"%(filename))
         sys.exit(1)
     f = open(filename, 'r')
     try:
         str = f.read()
         if not str:
-            print >> sys.stderr, "Template file '%s' is empty"%filename
+            sys.stderr.write("Template file '%s' is empty\n"%(filename))
             sys.exit(1)
         return str
     finally:
