@@ -91,7 +91,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
                 ctx.has_builder(package, 'rosmake')):
                 to_rosmake.append(package)
 
-    if to_rosmake != []:
+    if to_rosmake and ctx.allow_rosmake:
         # command = ['rosmake', '--status-rate=0'] + to_rosmake
         command = ['rosmake', '-V'] + to_rosmake
         print " ".join(command)

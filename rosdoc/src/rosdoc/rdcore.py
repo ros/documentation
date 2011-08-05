@@ -67,13 +67,16 @@ class RosdocContext(object):
         self.manifests = {}
         self.stack_manifests = {}
 
+        # allow rosmake to be disabled
+        self.allow_rosmake = True
+        
         # - generally suppress output
         self.quiet = False
         # - for profiling
         self.timings = {}
 
         # advanced per-package config
-        self.rd_configs = {}                
+        self.rd_configs = {} 
 
         self.template_dir = None
 
@@ -137,8 +140,6 @@ class RosdocContext(object):
         # sure if this is an issue or not.
         packages = self.packages
         for package, path in rospack_list:
-            if not self.quiet:
-                print package, path
             packages[package] = path
 
         # cache all stack manifests due to issue with empty stacks not being noted by _crawl_deps
@@ -188,30 +189,30 @@ class RosdocContext(object):
             try:
                 manifests[package] = m = roslib.manifest.parse_file(f)
 
-                #NOTE: the behavior is undefined if the users uses
-                #both config and export properties directly
+                if self.should_document(package):
+                    #NOTE: the behavior is undefined if the users uses
+                    #both config and export properties directly
 
-                # #1650 for backwards compatibility, we read the old
-                # 'doxymaker' tag, which is deprecated
-                #  - this is a loop but we only accept one value
-                for e in m.get_export('doxymaker', 'external'):
-                    external_docs[package] = e
-                for e in m.get_export('rosdoc', 'external'):
-                    external_docs[package] = e
-                    
-                # load in any external config files
-                # TODO: check for rosdoc.yaml by default
-                for e in m.get_export('rosdoc', 'config'):
-                    import yaml
-                    try:
-                        e = e.replace('${prefix}', path)
-                        config_p = os.path.join(path, e)
-                        with open(config_p, 'r') as config_f:
-                            rd_configs[package] = yaml.load(config_f)
-                    except Exception as e:
-                        sys.stderr.write("ERROR: unable to load rosdoc config file [%s]: %s\n"%(config_p, str(e)))
-                    
+                    # #1650 for backwards compatibility, we read the old
+                    # 'doxymaker' tag, which is deprecated
+                    #  - this is a loop but we only accept one value
+                    for e in m.get_export('doxymaker', 'external'):
+                        external_docs[package] = e
+                    for e in m.get_export('rosdoc', 'external'):
+                        external_docs[package] = e
 
+                    # load in any external config files
+                    # TODO: check for rosdoc.yaml by default
+                    for e in m.get_export('rosdoc', 'config'):
+                        import yaml
+                        try:
+                            e = e.replace('${prefix}', path)
+                            config_p = os.path.join(path, e)
+                            with open(config_p, 'r') as config_f:
+                                rd_configs[package] = yaml.load(config_f)
+                        except Exception as e:
+                            sys.stderr.write("ERROR: unable to load rosdoc config file [%s]: %s\n"%(config_p, str(e)))
+                    
             except:
                 if self.should_document(package):
                     sys.stderr.write("WARN: Package '%s' does not have a valid manifest.xml file, manifest information will not be included in docs\n"%(package))
