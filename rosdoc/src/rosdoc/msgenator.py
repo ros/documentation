@@ -192,7 +192,7 @@ def generate_msg_docs(ctx):
         srvs = roslib.srvs.list_srv_types(p, False)
 
         # generate the top-level index
-        wiki_url = '<li>%s</li>\n'%_href(ctx.manifests[p].url, '%s Package Documentation'%p)
+        wiki_url = '<li>%s</li>\n'%_href(ctx.manifests[p].url, 'Wiki page for %s'%p)
         generate_msg_index(p, file_d, msgs, srvs, wiki_url)
 
         # create dir for msg documentation

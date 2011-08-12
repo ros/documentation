@@ -138,11 +138,12 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
     # TODO: convert to plugin
     start = time.time()
     import shutil
-    styles_in = os.path.join(ctx.template_dir, 'styles.css')
-    styles_css = os.path.join(ctx.docdir, 'styles.css')
-    print "copying",styles_in, "to", styles_css
-    shutil.copyfile(styles_in, styles_css)
-    artifacts.append(styles_css)
+    for f in ['styles.css', 'msg-styles.css']:
+        styles_in = os.path.join(ctx.template_dir, f)
+        styles_css = os.path.join(ctx.docdir, f)
+        print "copying",styles_in, "to", styles_css
+        shutil.copyfile(styles_in, styles_css)
+        artifacts.append(styles_css)
     timings['support_files'] = time.time() - start
 
     return list(set(artifacts))
