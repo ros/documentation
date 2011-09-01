@@ -85,7 +85,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
     # TODO: replace with general purpose key/value parser/substitution
 
     # set defaults for overridable keys
-    file_patterns = '*.c *.cpp *.h *.cc *.hh *.hpp *.py *.dox'
+    file_patterns = '*.c *.cpp *.h *.cc *.hh *.hpp *.py *.dox *.java'
     excludes = '%s/build/'%path
     exclude_patterns = ''
 
