@@ -51,17 +51,20 @@ def generate_sphinx(ctx):
                 # is not inherent, it just requires rewriting higher-level
                 # logic
                 rd_config = [d for d in ctx.rd_configs[package] if d['builder'] == 'sphinx'][0]
-            
-                # rd_config is currently a flag. In the future, I imagine it pointing
-                # to the location of index.rst, among other things
 
-                if os.access(os.path.join(path, "index.rst"), os.R_OK):
+                # check to see which directory index.rst/conf.py are rooted in
+                if 'sphinx_root_dir' in rd_config:
+                    base_dir = os.path.join(path, rd_config['sphinx_root_dir'])
+                else:
+                    base_dir = path
+                if os.access(os.path.join(base_dir, "index.rst"), os.R_OK):
                     oldcwd = os.getcwd()
-                    os.chdir(path)
+                    os.chdir(base_dir)
                     try:
                         html_dir = os.path.join(oldcwd, ctx.docdir, package, 'html', rd_config.get('output_dir', '.'))
                         command = ['sphinx-build', '-a', '-E', '-b', 'html', '-D', 'latex_paper_size=letter', '.', html_dir]
                         print "sphinx-building %s [%s]"%(package, ' '.join(command))
+                        print "  cwd is", os.getcwd()
                         com = Popen(command, stdout=PIPE).communicate()
                         print 'stdout:'
                         print com[0]
