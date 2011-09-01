@@ -85,7 +85,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
     # TODO: replace with general purpose key/value parser/substitution
 
     # set defaults for overridable keys
-    file_patterns = '*.c *.cpp *.h *.cc *.hh *.hpp *.py *.dox'
+    file_patterns = '*.c *.cpp *.h *.cc *.hh *.hpp *.py *.dox *.java'
     excludes = '%s/build/'%path
     exclude_patterns = ''
 
@@ -363,8 +363,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 shutil.copyfile(dstyles_in, dstyles_css)
 
                 success.append(package)
-            except:
-                print >> sys.stderr, "ERROR: Doxygen of package [%s] failed"%(package)
+            except Exception as e:
+                print >> sys.stderr, "ERROR: Doxygen of package [%s] failed: %s"%(package, str(e))
             finally:
                 for f in files:
                     f.close()

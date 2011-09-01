@@ -32,9 +32,8 @@
 #
 # Revision $Id$
 
-from __future__ import with_statement
-
 import os
+import traceback
 import sys
 from subprocess import Popen, PIPE
 
@@ -68,13 +67,16 @@ class RosdocContext(object):
         self.manifests = {}
         self.stack_manifests = {}
 
+        # allow rosmake to be disabled
+        self.allow_rosmake = True
+        
         # - generally suppress output
         self.quiet = False
         # - for profiling
         self.timings = {}
 
         # advanced per-package config
-        self.rd_configs = {}                
+        self.rd_configs = {} 
 
         self.template_dir = None
 
@@ -89,15 +91,15 @@ class RosdocContext(object):
         if not rd_config:
             return builder == 'doxygen'
         if type(rd_config) != list:
-            print >> sys.stderr, "WARNING: package [%s] has an invalid rosdoc config"%package
+            sys.stderr.write("WARNING: package [%s] has an invalid rosdoc config\n"%(package))
             return False            
         try:
             return len([d for d in rd_config if d['builder'] == builder]) > 0
         except KeyError:
-            print >> sys.stderr, "config file for [%s] is invalid, missing required 'builder' key"%package
+            sys.stderr.write("config file for [%s] is invalid, missing required 'builder' key\n"%(package))
             return False
         except:
-            print >> sys.stderr, "config file for [%s] is invalid"%package
+            sys.stderr.write("config file for [%s] is invalid\n"%(package))
             return False
             
     def should_document(self, package):
@@ -138,9 +140,20 @@ class RosdocContext(object):
         # sure if this is an issue or not.
         packages = self.packages
         for package, path in rospack_list:
-            if not self.quiet:
-                print package, path
             packages[package] = path
+
+        # cache all stack manifests due to issue with empty stacks not being noted by _crawl_deps
+        stack_manifests = self.stack_manifests
+        rosstack_list = roslib.rospack.rosstackexec(['list']).split('\n')
+        rosstack_list = [x.split(' ') for x in rosstack_list if ' ' in x]
+        for stack, path in rosstack_list:
+
+            f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
+            try:
+                stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
+            except:
+                traceback.print_exc()
+                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
 
         self.doc_packages = [p for p in packages if self.should_document(p)]
         self._crawl_deps()
@@ -170,40 +183,39 @@ class RosdocContext(object):
                         p = roslib.stacks.get_stack_dir(stack)
                         stacks[stack] = p
                     except:
-                        print >> sys.stderr, "cannot locate directory of stack [%s]"%stack
-            elif not self.quiet:
-                print "-package[%s]"%(package)
+                        sys.stderr.write("cannot locate directory of stack [%s]\n"%(stack))
                 
             f = os.path.join(path, roslib.manifest.MANIFEST_FILE)
             try:
                 manifests[package] = m = roslib.manifest.parse_file(f)
 
-                #NOTE: the behavior is undefined if the users uses
-                #both config and export properties directly
+                if self.should_document(package):
+                    #NOTE: the behavior is undefined if the users uses
+                    #both config and export properties directly
 
-                # #1650 for backwards compatibility, we read the old
-                # 'doxymaker' tag, which is deprecated
-                #  - this is a loop but we only accept one value
-                for e in m.get_export('doxymaker', 'external'):
-                    external_docs[package] = e
-                for e in m.get_export('rosdoc', 'external'):
-                    external_docs[package] = e
-                    
-                # load in any external config files
-                # TODO: check for rosdoc.yaml by default
-                for e in m.get_export('rosdoc', 'config'):
-                    import yaml
-                    try:
-                        e = e.replace('${prefix}', path)
-                        config_p = os.path.join(path, e)
-                        with open(config_p, 'r') as config_f:
-                            rd_configs[package] = yaml.load(config_f)
-                    except Exception, e:
-                        print >> sys.stderr, "ERROR: unable to load rosdoc config file [%s]: %s"%(config_p, str(e))
-                    
+                    # #1650 for backwards compatibility, we read the old
+                    # 'doxymaker' tag, which is deprecated
+                    #  - this is a loop but we only accept one value
+                    for e in m.get_export('doxymaker', 'external'):
+                        external_docs[package] = e
+                    for e in m.get_export('rosdoc', 'external'):
+                        external_docs[package] = e
 
+                    # load in any external config files
+                    # TODO: check for rosdoc.yaml by default
+                    for e in m.get_export('rosdoc', 'config'):
+                        import yaml
+                        try:
+                            e = e.replace('${prefix}', path)
+                            config_p = os.path.join(path, e)
+                            with open(config_p, 'r') as config_f:
+                                rd_configs[package] = yaml.load(config_f)
+                        except Exception as e:
+                            sys.stderr.write("ERROR: unable to load rosdoc config file [%s]: %s\n"%(config_p, str(e)))
+                    
             except:
-                print >> sys.stderr, "WARN: Package '%s' does not have a valid manifest.xml file, manifest information will not be included in docs"%package
+                if self.should_document(package):
+                    sys.stderr.write("WARN: Package '%s' does not have a valid manifest.xml file, manifest information will not be included in docs\n"%(package))
                 bad.append(package)
 
         for b in bad:
@@ -211,17 +223,8 @@ class RosdocContext(object):
                 del self.packages[b]
         stack_manifests = self.stack_manifests
         for stack, path in stacks.iteritems():
-
-            f = os.path.join(path, roslib.stack_manifest.STACK_FILE)
-            try:
-                if not self.quiet:
-                    print "loading stack manifest %s"%(f)
-                stack_manifests[stack] = roslib.stack_manifest.parse_file(f)
-            except:
-                import traceback
-                traceback.print_exc()
-                print >> sys.stderr, "WARN: stack '%s' does not have a valid stack.xml file, manifest information will not be included in docs"%stack
-                
+            if not self.quiet:
+                print "+stack[%s]"%(stack)
 
 def compute_relative(src, target):
     s1, s2 = [p.split(os.sep) for p in [src, target]]
@@ -247,13 +250,13 @@ _TEMPLATES_DIR = 'templates'
 def load_tmpl(filename):
     filename = os.path.join(roslib.packages.get_pkg_dir('rosdoc'), _TEMPLATES_DIR, filename)
     if not os.path.isfile(filename):
-        print >> sys.stderr, "Cannot locate template file '%s'"%filename
+        sys.stderr.write("Cannot locate template file '%s'\n"%(filename))
         sys.exit(1)
     f = open(filename, 'r')
     try:
         str = f.read()
         if not str:
-            print >> sys.stderr, "Template file '%s' is empty"%filename
+            sys.stderr.write("Template file '%s' is empty\n"%(filename))
             sys.exit(1)
         return str
     finally:
@@ -282,9 +285,8 @@ def li_package_links(ctx, package, packages, docdir, package_htmldir=None):
 def instantiate_template(tmpl, vars):
     for k, v in vars.iteritems():
         try:
-            tmpl = tmpl.replace(k, v)
+            tmpl = tmpl.replace(k, str(v).encode('utf-8'))
         except:
-            # soft fail
             traceback.print_exc()
     return tmpl
 

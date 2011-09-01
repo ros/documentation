@@ -91,7 +91,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
                 ctx.has_builder(package, 'rosmake')):
                 to_rosmake.append(package)
 
-    if to_rosmake != []:
+    if to_rosmake and ctx.allow_rosmake:
         # command = ['rosmake', '--status-rate=0'] + to_rosmake
         command = ['rosmake', '-V'] + to_rosmake
         print " ".join(command)
@@ -112,7 +112,7 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
     except Exception, e:
         traceback.print_exc()
-        print >> sys.stderr, "package header generation failed"
+        print >> sys.stderr, "doxygenator completely failed"
         doxy_success = []                
     timings['doxygen'] = time.time() - start
 
@@ -138,11 +138,12 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
     # TODO: convert to plugin
     start = time.time()
     import shutil
-    styles_in = os.path.join(ctx.template_dir, 'styles.css')
-    styles_css = os.path.join(ctx.docdir, 'styles.css')
-    print "copying",styles_in, "to", styles_css
-    shutil.copyfile(styles_in, styles_css)
-    artifacts.append(styles_css)
+    for f in ['styles.css', 'msg-styles.css']:
+        styles_in = os.path.join(ctx.template_dir, f)
+        styles_css = os.path.join(ctx.docdir, f)
+        print "copying",styles_in, "to", styles_css
+        shutil.copyfile(styles_in, styles_css)
+        artifacts.append(styles_css)
     timings['support_files'] = time.time() - start
 
     return list(set(artifacts))
