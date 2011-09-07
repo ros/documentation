@@ -36,6 +36,7 @@ import os
 import traceback
 import sys
 from subprocess import Popen, PIPE
+import yaml
 
 import roslib.packages
 import roslib.rosenv
@@ -60,7 +61,6 @@ class RosdocContext(object):
         self.docdir = docdir
 
         # these will be initialized in init()
-        self.rosroot = self.ros_package_path = None
         self.packages = {}
         self.stacks = {}        
         self.external_docs = {}
@@ -124,9 +124,6 @@ class RosdocContext(object):
         if not self.quiet:
             print "initializing rosdoc context:\n\tpackage filters: %s\n\tpath filters: %s"%(self.package_filters, self.path_filters)
         
-        self.rosroot = roslib.rosenv.get_ros_root(required=True)
-        self.ros_package_path = roslib.rosenv.get_ros_package_path(required=False) or ''
-
         rosdoc_dir = roslib.packages.get_pkg_dir('rosdoc')
         self.template_dir = os.path.join(rosdoc_dir, 'templates')
 
@@ -204,7 +201,6 @@ class RosdocContext(object):
                     # load in any external config files
                     # TODO: check for rosdoc.yaml by default
                     for e in m.get_export('rosdoc', 'config'):
-                        import yaml
                         try:
                             e = e.replace('${prefix}', path)
                             config_p = os.path.join(path, e)
