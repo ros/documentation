@@ -45,7 +45,6 @@ from . rdcore import *
 from . import upload
 
 from . import msgenator
-from . import docindex 
 from . import licenseindex
 from . import epyenator
 from . import sphinxenator
@@ -110,9 +109,9 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
     import doxygenator
     try:
         artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
-    except Exception, e:
+    except Exception as e:
         traceback.print_exc()
-        print >> sys.stderr, "doxygenator completely failed"
+        sys.stderr.write("doxygenator completely failed\n")
         doxy_success = []                
     timings['doxygen'] = time.time() - start
 
@@ -121,7 +120,6 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         ('sphinx', sphinxenator.generate_sphinx),
         ('msg', msgenator.generate_msg_docs),
         ('landing-page', landing_page.generate_landing_page),
-        ('doc-index', docindex.generate_doc_index),
         ('license-index', licenseindex.generate_license_index),
                ]
 
