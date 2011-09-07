@@ -66,9 +66,6 @@ def get_optparse(name):
     parser.add_option("--paths",metavar="PATHS",
                       dest="paths", default=None, 
                       help="package paths to document")
-    parser.add_option("--no-rxdeps", action="store_true",
-                      dest="no_rxdeps", default=False, 
-                      help="disable rxdeps")
     parser.add_option("-o",metavar="OUTPUT_DIRECTORY",
                       dest="docdir", default='doc', 
                       help="directory to write documentation to")
@@ -77,7 +74,7 @@ def get_optparse(name):
                       help="rsync target argument")
     return parser
     
-def generate_docs(ctx, quiet=True, no_rxdeps=True):
+def generate_docs(ctx, quiet=True):
     timings = ctx.timings
     artifacts = []
     
@@ -104,11 +101,11 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         timings['rosmake'] = time.time() - start
 
     # Generate Doxygen
-    #  - this can become a plugin once we move rxdeps out of it
+    #  - this can become a plugin soon
     start = time.time()
     import doxygenator
     try:
-        artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
+        artifacts.extend(doxygenator.generate_doxygen(ctx))
     except Exception as e:
         traceback.print_exc()
         sys.stderr.write("doxygenator completely failed\n")

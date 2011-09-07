@@ -138,7 +138,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
 ## @return: header, footer, manifest
 ## @rtype: (str, str, str)
 def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m):
-    author = license = dependencies = description = usedby = status = notes = li_vc = li_url = brief = ''
+    author = license = description = status = notes = li_vc = li_url = brief = ''
     
     # by default, assume that packages are on wiki
     home_url = 'http://ros.org/wiki/%s'%package
@@ -162,22 +162,8 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
         if m.versioncontrol:
             vcurl = m.versioncontrol.url
             li_vc = '<li>Version Control (%s): <a href="%s">%s</a></li>'%(m.versioncontrol.type, vcurl, vcurl)
-
-        if m.depends:
-            dependencies = "<ul>\n" + \
-                           li_package_links(ctx, package, [d.package for d in m.depends], docdir, package_htmldir)
-        else:
-            dependencies = "None<br />"
     else:
         print "no manifest [%s]"%(package)
-
-    dependson1 = roslib.rospack.rospackexec(['depends-on1', package]).split('\n')
-    # filter depends by what we're actually documenting
-    dependson1 = [d for d in dependson1 if d and ctx.should_document(d)]
-    if dependson1:
-        usedby = "<ul>\n"+li_package_links(ctx, package, dependson1, docdir, package_htmldir)
-    else:
-        usedby = "None<br />"
 
     # include links to msgs/srvs
     msgs = roslib.msgs.list_msg_types(package, False)
@@ -185,7 +171,6 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
         
     return {'$package': package,
             '$projectlink': project_link, '$license': license,
-            '$dependencies': dependencies, '$usedby': usedby,
             '$description': description, '$brief': brief,
             '$author': author, '$status':status, 
             '$notes':notes, '$li_vc': li_vc, '$li_url': li_url,
@@ -220,28 +205,12 @@ If you are on Ubuntu/Debian, you can install doxygen by typing:
 """
         sys.exit(1) 
 
-#TODO: move elsewhere
-def run_rxdeps(package, pkg_doc_dir):
-    try:
-        command = ['rxdeps', '-s', '--target=%s'%package, '--cluster', '-o', os.path.join(pkg_doc_dir, '%s_deps.pdf'%package)]
-        print "rxdeping %s [%s]"%(package, ' '.join(command))
-        Popen(command, stdout=PIPE).communicate()
-    except OSError, (errno, strerr):
-        print >> sys.stderr, """\nERROR: It appears that you do not have rxdeps installed. 
-Package dependency tree links will not work properly.
-"""
-    except:
-        print >> sys.stderr, "ERROR: rxdeps failed"
-
 ## Main entrypoint into creating doxygen files
-## @param disable_rxdeps: if True, don't generate rxdeps documenation (note: this parameter is volatile as rxdeps generation will be moved outside of doxygenator)
-## @type  disable_rxdeps: bool        
 ## @return [str]: list of directories in which documentation was generated (aka the list of successful packages)
-def generate_doxygen(ctx, disable_rxdeps=False):
+def generate_doxygen(ctx):
     quiet = ctx.quiet
 
     #TODO: move external generator into its own generator
-    #TODO: move rxdeps into its own generator
     
     #TODO: success is now supposed to be the listed of generated
     #artifacts. There is some discontinuity here if the cwd is
@@ -322,8 +291,6 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
-                if not disable_rxdeps:
-                    run_rxdeps(package, pkg_doc_dir)
                 if package not in external_docs:
                     doxy = \
                         create_package_template(package, rd_config, manifest_,

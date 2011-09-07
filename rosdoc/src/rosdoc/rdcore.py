@@ -248,41 +248,15 @@ def load_tmpl(filename):
     if not os.path.isfile(filename):
         sys.stderr.write("Cannot locate template file '%s'\n"%(filename))
         sys.exit(1)
-    f = open(filename, 'r')
-    try:
+    with open(filename, 'r') as f:
         str = f.read()
         if not str:
             sys.stderr.write("Template file '%s' is empty\n"%(filename))
             sys.exit(1)
         return str
-    finally:
-        f.close()
-
-def li_package_links(ctx, package, packages, docdir, package_htmldir=None):
-    """
-    @param package: current package
-    @type  package: str
-    @param packages: list of packages to generate 'li' html links to
-    @type  packages: [str]
-    """
-    # package_htmldir can be overridden by rosdoc config
-    package_htmldir = package_htmldir or html_path(package, docdir)
-    
-    # don't link to packages that aren't documentable
-    documented_packages = [p for p in packages if ctx.should_document(p)]
-    undocumented_packages = [p for p in packages if not ctx.should_document(p)]
-    
-    documented = '\n'.join(['  <li><a href="%s/index.html">%s</a></li>'%\
-                                (compute_relative(package_htmldir, html_path(p, docdir)), p) for p in documented_packages])
-    undocumented = '\n'.join(['  <li>%s</li>'%p for p in undocumented_packages])
-    return documented + undocumented + "\n</ul>"
-            
 
 def instantiate_template(tmpl, vars):
     for k, v in vars.iteritems():
-        try:
-            tmpl = tmpl.replace(k, str(v).encode('utf-8'))
-        except:
-            traceback.print_exc()
+        tmpl = tmpl.replace(k, str(v).encode('utf-8'))
     return tmpl
 
