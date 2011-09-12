@@ -19,3 +19,4 @@ python-sphinx:
   macports: py26-sphinx
   debian: python-sphinx
   freebsd: py27-sphinx
+  fedora: python-sphinx
