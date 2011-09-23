@@ -32,16 +32,13 @@
 #
 # Revision $Id$
 # $Author$
-from __future__ import with_statement
 
 import cStringIO
 import os
 import sys
 import time
-import shutil
 
 import roslib.msgs
-import roslib.scriptutil
 import roslib.srvs
 import roslib.stacks
 

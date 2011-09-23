@@ -39,7 +39,6 @@ from subprocess import Popen, PIPE
 import yaml
 
 import roslib.packages
-import roslib.rosenv
 import roslib.manifest 
 import roslib.rospack 
 import roslib.stacks
