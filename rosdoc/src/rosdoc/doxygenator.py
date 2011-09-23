@@ -33,10 +33,9 @@
 #
 # Revision $Id$
 
-from __future__ import with_statement
-
 from subprocess import Popen, PIPE
 import tempfile
+import shutil
 
 import roslib.msgs
 import roslib.srvs
@@ -45,7 +44,6 @@ import roslib.rospack
 from rosdoc.rdcore import *
 
 doxy_template = load_tmpl('doxy.template')
-external_template = load_tmpl('external.html')
 header_template = load_tmpl('header.html')
 footer_template = load_tmpl('footer.html')
 manifest_template = load_tmpl('manifest.html')
@@ -210,7 +208,7 @@ If you are on Ubuntu/Debian, you can install doxygen by typing:
 def generate_doxygen(ctx):
     quiet = ctx.quiet
 
-    #TODO: move external generator into its own generator
+    #TODO: generate_doxygen shouldn't receive packages in external_docs
     
     #TODO: success is now supposed to be the listed of generated
     #artifacts. There is some discontinuity here if the cwd is
@@ -301,30 +299,8 @@ def generate_doxygen(ctx):
                         _write_to_file(f, tmpl)
                     # doxygenate
                     run_doxygen(package, doxygen_file.name, quiet=quiet)
-                else:
-                    # for external packages, we generate a landing page that is
-                    # similar to the doxygen, but we don't actually run doxygen as
-                    # it is time consuming for packages that provide their own docs
-
-                    external_link = ctx.external_docs[package]
-
-                    # Override mainpage title if 'name' is in config
-                    title = 'Main Page'
-                    if rd_config:
-                        title = rd_config.get('name', title)
-                    vars = { '$package': package, '$external_link': external_link,
-                             '$header': header, '$footer': footer,
-                             '$manifest': manifest_html,
-                             # doxygen vars
-                             '$relpath$': '../../',
-                             '$title': package+': '+title,
-                             }
-
-                    with open(os.path.join(pkg_doc_dir, 'index.html'), 'w') as ext_html_file:
-                        _write_to_file(ext_html_file, instantiate_template(external_template, vars))
                         
                 # support files (stylesheets)
-                import shutil
                 dstyles_in = os.path.join(ctx.template_dir, 'doxygen.css')
                 dstyles_css = os.path.join(html_dir, 'doxygen.css')
                 shutil.copyfile(dstyles_in, dstyles_css)
