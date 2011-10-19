@@ -45,7 +45,6 @@ from . rdcore import *
 from . import upload
 
 from . import msgenator
-from . import docindex 
 from . import licenseindex
 from . import epyenator
 from . import sphinxenator
@@ -67,9 +66,6 @@ def get_optparse(name):
     parser.add_option("--paths",metavar="PATHS",
                       dest="paths", default=None, 
                       help="package paths to document")
-    parser.add_option("--no-rxdeps", action="store_true",
-                      dest="no_rxdeps", default=False, 
-                      help="disable rxdeps")
     parser.add_option("-o",metavar="OUTPUT_DIRECTORY",
                       dest="docdir", default='doc', 
                       help="directory to write documentation to")
@@ -78,7 +74,7 @@ def get_optparse(name):
                       help="rsync target argument")
     return parser
     
-def generate_docs(ctx, quiet=True, no_rxdeps=True):
+def generate_docs(ctx, quiet=True):
     timings = ctx.timings
     artifacts = []
     
@@ -105,14 +101,14 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         timings['rosmake'] = time.time() - start
 
     # Generate Doxygen
-    #  - this can become a plugin once we move rxdeps out of it
+    #  - this can become a plugin soon
     start = time.time()
     import doxygenator
     try:
-        artifacts.extend(doxygenator.generate_doxygen(ctx, disable_rxdeps=no_rxdeps))
-    except Exception, e:
+        artifacts.extend(doxygenator.generate_doxygen(ctx))
+    except Exception as e:
         traceback.print_exc()
-        print >> sys.stderr, "doxygenator completely failed"
+        sys.stderr.write("doxygenator completely failed\n")
         doxy_success = []                
     timings['doxygen'] = time.time() - start
 
@@ -121,7 +117,6 @@ def generate_docs(ctx, quiet=True, no_rxdeps=True):
         ('sphinx', sphinxenator.generate_sphinx),
         ('msg', msgenator.generate_msg_docs),
         ('landing-page', landing_page.generate_landing_page),
-        ('doc-index', docindex.generate_doc_index),
         ('license-index', licenseindex.generate_license_index),
                ]
 

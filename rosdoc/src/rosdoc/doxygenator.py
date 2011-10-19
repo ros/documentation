@@ -33,10 +33,9 @@
 #
 # Revision $Id$
 
-from __future__ import with_statement
-
 from subprocess import Popen, PIPE
 import tempfile
+import shutil
 
 import roslib.msgs
 import roslib.srvs
@@ -45,7 +44,6 @@ import roslib.rospack
 from rosdoc.rdcore import *
 
 doxy_template = load_tmpl('doxy.template')
-external_template = load_tmpl('external.html')
 header_template = load_tmpl('header.html')
 footer_template = load_tmpl('footer.html')
 manifest_template = load_tmpl('manifest.html')
@@ -138,7 +136,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
 ## @return: header, footer, manifest
 ## @rtype: (str, str, str)
 def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m):
-    author = license = dependencies = description = usedby = status = notes = li_vc = li_url = brief = ''
+    author = license = description = status = notes = li_vc = li_url = brief = ''
     
     # by default, assume that packages are on wiki
     home_url = 'http://ros.org/wiki/%s'%package
@@ -162,22 +160,8 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
         if m.versioncontrol:
             vcurl = m.versioncontrol.url
             li_vc = '<li>Version Control (%s): <a href="%s">%s</a></li>'%(m.versioncontrol.type, vcurl, vcurl)
-
-        if m.depends:
-            dependencies = "<ul>\n" + \
-                           li_package_links(ctx, package, [d.package for d in m.depends], docdir, package_htmldir)
-        else:
-            dependencies = "None<br />"
     else:
         print "no manifest [%s]"%(package)
-
-    dependson1 = roslib.rospack.rospackexec(['depends-on1', package]).split('\n')
-    # filter depends by what we're actually documenting
-    dependson1 = [d for d in dependson1 if d and ctx.should_document(d)]
-    if dependson1:
-        usedby = "<ul>\n"+li_package_links(ctx, package, dependson1, docdir, package_htmldir)
-    else:
-        usedby = "None<br />"
 
     # include links to msgs/srvs
     msgs = roslib.msgs.list_msg_types(package, False)
@@ -185,7 +169,6 @@ def load_manifest_vars(ctx, rd_config, package, path, docdir, package_htmldir, m
         
     return {'$package': package,
             '$projectlink': project_link, '$license': license,
-            '$dependencies': dependencies, '$usedby': usedby,
             '$description': description, '$brief': brief,
             '$author': author, '$status':status, 
             '$notes':notes, '$li_vc': li_vc, '$li_url': li_url,
@@ -220,28 +203,12 @@ If you are on Ubuntu/Debian, you can install doxygen by typing:
 """
         sys.exit(1) 
 
-#TODO: move elsewhere
-def run_rxdeps(package, pkg_doc_dir):
-    try:
-        command = ['rxdeps', '-s', '--target=%s'%package, '--cluster', '-o', os.path.join(pkg_doc_dir, '%s_deps.pdf'%package)]
-        print "rxdeping %s [%s]"%(package, ' '.join(command))
-        Popen(command, stdout=PIPE).communicate()
-    except OSError, (errno, strerr):
-        print >> sys.stderr, """\nERROR: It appears that you do not have rxdeps installed. 
-Package dependency tree links will not work properly.
-"""
-    except:
-        print >> sys.stderr, "ERROR: rxdeps failed"
-
 ## Main entrypoint into creating doxygen files
-## @param disable_rxdeps: if True, don't generate rxdeps documenation (note: this parameter is volatile as rxdeps generation will be moved outside of doxygenator)
-## @type  disable_rxdeps: bool        
 ## @return [str]: list of directories in which documentation was generated (aka the list of successful packages)
-def generate_doxygen(ctx, disable_rxdeps=False):
+def generate_doxygen(ctx):
     quiet = ctx.quiet
 
-    #TODO: move external generator into its own generator
-    #TODO: move rxdeps into its own generator
+    #TODO: generate_doxygen shouldn't receive packages in external_docs
     
     #TODO: success is now supposed to be the listed of generated
     #artifacts. There is some discontinuity here if the cwd is
@@ -322,8 +289,6 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                 vars = load_manifest_vars(ctx, rd_config, package, path, dir, html_dir, manifest_)
                 header, footer, manifest_html = [instantiate_template(t, vars) for t in tmpls]
 
-                if not disable_rxdeps:
-                    run_rxdeps(package, pkg_doc_dir)
                 if package not in external_docs:
                     doxy = \
                         create_package_template(package, rd_config, manifest_,
@@ -334,30 +299,8 @@ def generate_doxygen(ctx, disable_rxdeps=False):
                         _write_to_file(f, tmpl)
                     # doxygenate
                     run_doxygen(package, doxygen_file.name, quiet=quiet)
-                else:
-                    # for external packages, we generate a landing page that is
-                    # similar to the doxygen, but we don't actually run doxygen as
-                    # it is time consuming for packages that provide their own docs
-
-                    external_link = ctx.external_docs[package]
-
-                    # Override mainpage title if 'name' is in config
-                    title = 'Main Page'
-                    if rd_config:
-                        title = rd_config.get('name', title)
-                    vars = { '$package': package, '$external_link': external_link,
-                             '$header': header, '$footer': footer,
-                             '$manifest': manifest_html,
-                             # doxygen vars
-                             '$relpath$': '../../',
-                             '$title': package+': '+title,
-                             }
-
-                    with open(os.path.join(pkg_doc_dir, 'index.html'), 'w') as ext_html_file:
-                        _write_to_file(ext_html_file, instantiate_template(external_template, vars))
                         
                 # support files (stylesheets)
-                import shutil
                 dstyles_in = os.path.join(ctx.template_dir, 'doxygen.css')
                 dstyles_css = os.path.join(html_dir, 'doxygen.css')
                 shutil.copyfile(dstyles_in, dstyles_css)

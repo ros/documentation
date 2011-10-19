@@ -32,7 +32,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-from __future__ import with_statement
+from __future__ import print_function
 
 import os
 import sys
@@ -57,25 +57,25 @@ def generate_sphinx(ctx):
                     base_dir = os.path.join(path, rd_config['sphinx_root_dir'])
                 else:
                     base_dir = path
-                if os.access(os.path.join(base_dir, "index.rst"), os.R_OK):
+                if os.access(os.path.join(base_dir, "conf.py"), os.R_OK):
                     oldcwd = os.getcwd()
                     os.chdir(base_dir)
                     try:
                         html_dir = os.path.join(oldcwd, ctx.docdir, package, 'html', rd_config.get('output_dir', '.'))
                         command = ['sphinx-build', '-a', '-E', '-b', 'html', '-D', 'latex_paper_size=letter', '.', html_dir]
-                        print "sphinx-building %s [%s]"%(package, ' '.join(command))
-                        print "  cwd is", os.getcwd()
+                        print("sphinx-building %s [%s]"%(package, ' '.join(command)))
+                        print("  cwd is", os.getcwd())
                         com = Popen(command, stdout=PIPE).communicate()
-                        print 'stdout:'
-                        print com[0]
-                        print 'stderr'
-                        print com[1]
+                        print('stdout:')
+                        print(com[0])
+                        print('stderr')
+                        print(com[1])
                     finally:
                         # restore cwd
                         os.chdir(oldcwd)
                     success.append(package)
                 else:
-                    print >> sys.stderr, "ERROR: no index.rst for sphinx build of [%s]"%package
+                    print("ERROR: no conf.py for sphinx build of [%s]"%package, file=sys.stderr)
             finally:
                 pass
     return success

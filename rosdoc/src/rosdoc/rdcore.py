@@ -36,9 +36,9 @@ import os
 import traceback
 import sys
 from subprocess import Popen, PIPE
+import yaml
 
 import roslib.packages
-import roslib.rosenv
 import roslib.manifest 
 import roslib.rospack 
 import roslib.stacks
@@ -60,7 +60,6 @@ class RosdocContext(object):
         self.docdir = docdir
 
         # these will be initialized in init()
-        self.rosroot = self.ros_package_path = None
         self.packages = {}
         self.stacks = {}        
         self.external_docs = {}
@@ -124,9 +123,6 @@ class RosdocContext(object):
         if not self.quiet:
             print "initializing rosdoc context:\n\tpackage filters: %s\n\tpath filters: %s"%(self.package_filters, self.path_filters)
         
-        self.rosroot = roslib.rosenv.get_ros_root(required=True)
-        self.ros_package_path = roslib.rosenv.get_ros_package_path(required=False) or ''
-
         rosdoc_dir = roslib.packages.get_pkg_dir('rosdoc')
         self.template_dir = os.path.join(rosdoc_dir, 'templates')
 
@@ -204,7 +200,6 @@ class RosdocContext(object):
                     # load in any external config files
                     # TODO: check for rosdoc.yaml by default
                     for e in m.get_export('rosdoc', 'config'):
-                        import yaml
                         try:
                             e = e.replace('${prefix}', path)
                             config_p = os.path.join(path, e)
@@ -252,99 +247,15 @@ def load_tmpl(filename):
     if not os.path.isfile(filename):
         sys.stderr.write("Cannot locate template file '%s'\n"%(filename))
         sys.exit(1)
-    f = open(filename, 'r')
-    try:
+    with open(filename, 'r') as f:
         str = f.read()
         if not str:
             sys.stderr.write("Template file '%s' is empty\n"%(filename))
             sys.exit(1)
         return str
-    finally:
-        f.close()
-
-def li_package_links(ctx, package, packages, docdir, package_htmldir=None):
-    """
-    @param package: current package
-    @type  package: str
-    @param packages: list of packages to generate 'li' html links to
-    @type  packages: [str]
-    """
-    # package_htmldir can be overridden by rosdoc config
-    package_htmldir = package_htmldir or html_path(package, docdir)
-    
-    # don't link to packages that aren't documentable
-    documented_packages = [p for p in packages if ctx.should_document(p)]
-    undocumented_packages = [p for p in packages if not ctx.should_document(p)]
-    
-    documented = '\n'.join(['  <li><a href="%s/index.html">%s</a></li>'%\
-                                (compute_relative(package_htmldir, html_path(p, docdir)), p) for p in documented_packages])
-    undocumented = '\n'.join(['  <li>%s</li>'%p for p in undocumented_packages])
-    return documented + undocumented + "\n</ul>"
-            
 
 def instantiate_template(tmpl, vars):
     for k, v in vars.iteritems():
-        try:
-            tmpl = tmpl.replace(k, str(v).encode('utf-8'))
-        except:
-            traceback.print_exc()
+        tmpl = tmpl.replace(k, str(v).encode('utf-8'))
     return tmpl
-
-
-################################################################################
-# ROS package utilities
-
-def generate_package_tree(ctx):
-    """
-    Generate a tree representation of the available packages
-    """
-    remaining_packages = set(ctx.doc_packages)
-    
-    # step 1: assign stack packages
-    stacks = roslib.stacks.list_stacks()
-    # - fill out tree structure for packages in stacks
-    packagetree = {}
-    found_packages = set()
-    for s in stacks:
-        packagetree[s] = d = {}
-        packages = roslib.stacks.packages_of(s)
-        for p in packages:
-            d[p] = {}
-            found_packages.add(p)
-    remaining_packages = set(ctx.doc_packages) - found_packages
-
-    # step 2: walk remaining packages
-    def _gt_visitor(base, d, dirs, files):
-        if os.path.isfile(os.path.join(d, 'manifest.xml')):
-            package = os.path.basename(d)
-            if package in remaining_packages:
-                visited.append(package)
-                rel = d[len(base):]
-                treepath = [t for t in rel.split(os.sep) if t]
-                node = packagetree
-                for t in treepath:
-                    if not node.has_key(t):
-                        node[t] = {}
-                    node = node[t]
-                return True
-            else:
-                # ignore 
-                pass
-        elif os.path.isfile(os.path.join(d, 'rospack_nosubdirs')):
-            return True
-        return False
-
-    packages = ctx.packages
-    rosroot = ctx.rosroot
-    ros_package_path = ctx.ros_package_path
-    
-    visited = []
-    paths = [rosroot] + ros_package_path.split(os.pathsep)
-    paths = [p for p in paths if p]
-    for p in paths:
-        for d, dirs, files in os.walk(p, topdown=True):
-            if _gt_visitor(p, d, dirs, files):
-                del dirs[:] #don't descend further
-
-    return packagetree
 
