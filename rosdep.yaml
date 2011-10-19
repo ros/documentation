@@ -5,6 +5,10 @@ doxygen:
   arch: doxygen
   debian: doxygen
   macports: doxygen
+  osxbrew:
+    lion:
+      homebrew:
+        packages: [ doxygen ]
   gentoo: app-doc/doxygen
   freebsd: doxygen
 epydoc:
@@ -12,10 +16,19 @@ epydoc:
   debian: python-epydoc
   fedora: epydoc
   macports: py26-epydoc
+  osxbrew:
+    lion:
+      pip:
+        packages: [ epydoc ]
   gentoo: dev-python/epydoc
   freebsd: epydoc
 python-sphinx:
   ubuntu: python-sphinx
   macports: py26-sphinx
+  osxbrew:
+    lion:
+      pip:
+        packages: [ Sphinx ]
   debian: python-sphinx
   freebsd: py27-sphinx
+  fedora: python-sphinx
