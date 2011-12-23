@@ -149,10 +149,10 @@ def _generate_licenses_map(ctx):
 def li_license_links(packages, blamelist, docdir):
     list = []
     for p in packages:
-        path = html_path(p, docdir)
+        #path = html_path(p, docdir)
         blame = blamelist.get(p, None)
         blamestr = ': (%s)'%(', '.join(blame)) if blame else ''
-        list.append('  <li><a href="%s/index.html">%s</a>%s</li>'%(path, p, blamestr))
+        list.append('  <li><a href="%s/html/index.html">%s</a>%s</li>'%(p, p, blamestr))
     return '<ul>\n'+'\n'.join(list)+'</ul>\n'
 
 
