@@ -34,6 +34,7 @@
 # Revision $Id$
 
 from subprocess import Popen, PIPE
+import shutil
 import tempfile
 import shutil
 
@@ -215,12 +216,7 @@ def generate_doxygen(ctx):
     #changed.
     
     # setup temp directory
-    #UNIXONLY
-    # TODO: dynamically generate
-    tmp = '/tmp/rosdoc'
-    if not os.path.exists(tmp):
-        os.mkdir(tmp)
-    example_path = tmp
+    example_path = tempfile.mkdtemp(prefix='rosdoc_doxygen')
 
     success = []
     
@@ -312,5 +308,5 @@ def generate_doxygen(ctx):
                 for f in files:
                     f.close()
     finally:
-        pass
+        shutil.rmtree(example_path)
     return success
