@@ -45,7 +45,6 @@ from . rdcore import *
 from . import upload
 
 from . import msgenator
-from . import licenseindex
 from . import epyenator
 from . import sphinxenator
 from . import landing_page
@@ -117,7 +116,6 @@ def generate_docs(ctx, quiet=True):
         ('sphinx', sphinxenator.generate_sphinx),
         ('msg', msgenator.generate_msg_docs),
         ('landing-page', landing_page.generate_landing_page),
-        ('license-index', licenseindex.generate_license_index),
                ]
 
     for plugin_name, plugin in plugins:
