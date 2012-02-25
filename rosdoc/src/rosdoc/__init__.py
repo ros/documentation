@@ -77,28 +77,6 @@ def generate_docs(ctx, quiet=True):
     timings = ctx.timings
     artifacts = []
     
-    # Collect all packages that mention rosmake as a builder, and build them first
-    start = time.time()
-    to_rosmake = []
-    for package in ctx.rd_configs:
-            if (package in ctx.doc_packages and
-                ctx.should_document(package) and
-                ctx.has_builder(package, 'rosmake')):
-                to_rosmake.append(package)
-
-    if to_rosmake and ctx.allow_rosmake:
-        # command = ['rosmake', '--status-rate=0'] + to_rosmake
-        command = ['rosmake', '-V'] + to_rosmake
-        print " ".join(command)
-        started = time.time()
-        try:
-            (stdoutdata, _) = Popen(command, stdout=PIPE).communicate()
-            print stdoutdata
-        except:
-            print "command failed"
-        print "rosmake took %ds" % (time.time() - started)
-        timings['rosmake'] = time.time() - start
-
     # Generate Doxygen
     #  - this can become a plugin soon
     start = time.time()

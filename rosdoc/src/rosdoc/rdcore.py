@@ -66,9 +66,6 @@ class RosdocContext(object):
         self.manifests = {}
         self.stack_manifests = {}
 
-        # allow rosmake to be disabled
-        self.allow_rosmake = True
-        
         # - generally suppress output
         self.quiet = False
         # - for profiling
