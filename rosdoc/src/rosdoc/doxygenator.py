@@ -44,14 +44,6 @@ import roslib.rospack
 
 from rosdoc.rdcore import *
 
-doxy_template = load_tmpl('doxy.template')
-external_template = load_tmpl('external.html')
-header_template = load_tmpl('header.html')
-footer_template = load_tmpl('footer.html')
-manifest_template = load_tmpl('manifest.html')
-
-# other templates
-
 ## @param ext str: extension (msg or srv)
 ## @param type str: type name
 ## @param text str: full text definition of type
@@ -103,7 +95,7 @@ def create_package_template(package, rd_config, m, path, html_dir,
         rd_config = {}
        
     include_path = roslib.rospack.rospackexec(['cflags-only-I',package])
-    
+
     # example path is where htmlinclude operates
     dvars = { '$INPUT':  path, '$PROJECT_NAME': package,
               '$EXAMPLE_PATH': "%s %s"%(path, example_path),
@@ -203,6 +195,30 @@ def _write_to_file(f, tmpl):
         print "ERROR, f[%s], tmpl[%s]"%(f, tmpl)
         raise
     
+def get_doxygen_version():
+    try:
+        command = ['doxygen', '--version']
+        version = Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].strip()
+    except:
+        version = None
+    return version
+        
+# #3870: doxygen changed their template file syntax in a 'patch'
+# version.  It's a bit ugly to inline this on import, but this entire
+# generator needs to be rewritten.
+def header_template_name():
+    doxygen_version = get_doxygen_version()
+    # doxygen not available
+    if doxygen_version is None:
+        return None
+    major, minor, patch = doxygen_version.split('.')
+    # > 1.7.3 doxygen changed the template syntax
+    if int(major) > 1 or int(minor) > 7 or int(patch) > 3:
+        return 'header-1.7.4.html'
+    else:
+        return 'header.html'
+
+
 def run_doxygen(package, doxygen_file, quiet=False):
     try:
         command = ['doxygen', doxygen_file]
@@ -371,3 +387,15 @@ def generate_doxygen(ctx, disable_rxdeps=False):
     finally:
         pass
     return success
+
+
+# other templates
+
+doxy_template = load_tmpl('doxy.template')
+external_template = load_tmpl('external.html')
+
+header_template = load_tmpl(header_template_name())
+footer_template = load_tmpl('footer.html')
+manifest_template = load_tmpl('manifest.html')
+
+
