@@ -331,8 +331,10 @@ def generate_doxygen(ctx):
 
 doxy_template = load_tmpl('doxy.template')
 
-header_template = load_tmpl(header_template_name())
-footer_template = load_tmpl('footer.html')
-manifest_template = load_tmpl('manifest.html')
-
-
+header_template_filename = header_template_name()
+if header_template_filename is None:
+    raise Exception("Doxygen is not installed.  Please install it to continue.")
+else:
+    header_template = load_tmpl(header_template_filename)
+    footer_template = load_tmpl('footer.html')
+    manifest_template = load_tmpl('manifest.html')
