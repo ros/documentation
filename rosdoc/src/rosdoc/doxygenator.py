@@ -33,11 +33,11 @@
 #
 # Revision $Id$
 
+from distutils.version import StrictVersion
 from subprocess import Popen, PIPE
 import shutil
 import tempfile
-import shutil
-
+import shutil 
 import roslib.msgs
 import roslib.srvs
 import roslib.rospack 
@@ -203,7 +203,7 @@ def header_template_name():
     if len(doxygen_version_splitted) > 3:
         build = doxygen_version_splitted[3]
     # > 1.7.3 doxygen changed the template syntax
-    if int(major) > 1 or int(minor) > 7 or int(patch) > 3:
+    if StrictVersion('%s.%s.%s'%(major, minor, patch)) > StrictVersion('1.7.3'):
         return 'header-1.7.4.html'
     else:
         return 'header.html'
