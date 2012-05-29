@@ -196,7 +196,12 @@ def header_template_name():
     # doxygen not available
     if doxygen_version is None:
         return None
-    major, minor, patch = doxygen_version.split('.')
+    doxygen_version_splitted = doxygen_version.split('.')
+    major = doxygen_version_splitted[0]
+    minor = doxygen_version_splitted[1]
+    patch = doxygen_version_splitted[2]
+    if len(doxygen_version_splitted) > 3:
+        build = doxygen_version_splitted[3]
     # > 1.7.3 doxygen changed the template syntax
     if int(major) > 1 or int(minor) > 7 or int(patch) > 3:
         return 'header-1.7.4.html'
