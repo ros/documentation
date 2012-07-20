@@ -33,11 +33,11 @@
 #
 # Revision $Id$
 
+from distutils.version import StrictVersion
 from subprocess import Popen, PIPE
 import shutil
 import tempfile
-import shutil
-
+import shutil 
 import roslib.msgs
 import roslib.srvs
 import roslib.rospack 
@@ -196,9 +196,14 @@ def header_template_name():
     # doxygen not available
     if doxygen_version is None:
         return None
-    major, minor, patch = doxygen_version.split('.')
+    doxygen_version_splitted = doxygen_version.split('.')
+    major = doxygen_version_splitted[0]
+    minor = doxygen_version_splitted[1]
+    patch = doxygen_version_splitted[2]
+    if len(doxygen_version_splitted) > 3:
+        build = doxygen_version_splitted[3]
     # > 1.7.3 doxygen changed the template syntax
-    if int(major) > 1 or int(minor) > 7 or int(patch) > 3:
+    if StrictVersion('%s.%s.%s'%(major, minor, patch)) > StrictVersion('1.7.3'):
         return 'header-1.7.4.html'
     else:
         return 'header.html'
@@ -331,8 +336,10 @@ def generate_doxygen(ctx):
 
 doxy_template = load_tmpl('doxy.template')
 
-header_template = load_tmpl(header_template_name())
-footer_template = load_tmpl('footer.html')
-manifest_template = load_tmpl('manifest.html')
-
-
+header_template_filename = header_template_name()
+if header_template_filename is None:
+    raise Exception("Doxygen is not installed.  Please install it to continue.")
+else:
+    header_template = load_tmpl(header_template_filename)
+    footer_template = load_tmpl('footer.html')
+    manifest_template = load_tmpl('manifest.html')
